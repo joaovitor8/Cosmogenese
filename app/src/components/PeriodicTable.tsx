@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react'; // Importamos o useRef
 import { Radar, Sparkles, ShieldAlert } from 'lucide-react'; 
 import { elements, ChemicalElement, ElementCategory } from '@/src/data/elementsData';
 
@@ -15,20 +15,31 @@ export default function PeriodicTable() {
   const [activeFilter, setActiveFilter] = useState<ElementCategory | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   
-  const [clickCount, setClickCount] = useState(0);
   const [isCosmic, setIsCosmic] = useState(false);
 
-  useEffect(() => {
-    if (clickCount > 0 && clickCount < 3) {
-      const timer = setTimeout(() => setClickCount(0), 1000);
-      return () => clearTimeout(timer);
-    }
-    if (clickCount >= 3) {
-      setIsCosmic(!isCosmic);
-      setClickCount(0);
-    }
-  }, [clickCount, isCosmic]);
+  // useRef guarda variáveis "silenciosas" que não causam re-renderizações na tela
+  const clickCountRef = useRef(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // A lógica do Easter Egg movida para um Event Handler limpo
+  const handleCosmicClick = () => {
+    clickCountRef.current += 1;
+
+    // Limpa o timer anterior se o usuário clicou rapidamente de novo
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    if (clickCountRef.current >= 3) {
+      setIsCosmic(prev => !prev);
+      clickCountRef.current = 0; // Zera os cliques após ativar
+    } else {
+      // Se não chegou a 3, define um timer de 1s para zerar a contagem
+      timerRef.current = setTimeout(() => {
+        clickCountRef.current = 0;
+      }, 1000);
+    }
+  };
+
+  // Mantemos apenas o useEffect que sincroniza o CSS global com o React
   useEffect(() => {
     document.body.classList.toggle('theme-cosmic', isCosmic);
   }, [isCosmic]);
@@ -39,10 +50,10 @@ export default function PeriodicTable() {
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen p-2 sm:p-4 lg:p-8 relative">
       
-      {/* HEADER - (Como é pequeno, pode ficar aqui ou virar um componente TopBar.tsx futuramente) */}
+      {/* HEADER */}
       <div className="w-full max-w-[95vw] lg:max-w-[85vw] flex justify-between items-center mb-4 sm:mb-6 z-30">
         <button 
-          onClick={() => setClickCount(prev => prev + 1)}
+          onClick={handleCosmicClick} // Chamando a nossa nova função otimizada
           className="flex items-center gap-2 text-xl sm:text-2xl font-mono text-toxic tracking-[0.2em] uppercase transition-all duration-700 select-none cursor-pointer"
         >
           {isCosmic ? <><Sparkles className="w-6 h-6 animate-pulse text-fuchsia-400" /> Forja_Estelar</> : <><ShieldAlert className="w-6 h-6" /> Tabela_Periódica</>}
@@ -65,7 +76,7 @@ export default function PeriodicTable() {
         onClose={closeFilters}
       />
 
-      {/* GRID DA TABELA (Renderizando os sub-componentes ElementCell) */}
+      {/* GRID DA TABELA */}
       <div className="relative shrink-0 transition-opacity duration-500 z-10" style={{ width: 'min(100%, calc((100vh - 7rem) * 1.8))', aspectRatio: '18 / 10' }}>
         <div className="absolute inset-0 grid gap-0.5 sm:gap-1" style={{ gridTemplateColumns: 'repeat(18, minmax(0, 1fr))', gridTemplateRows: 'repeat(10, minmax(0, 1fr))' }}>
           {elements.map((el) => (
@@ -79,7 +90,7 @@ export default function PeriodicTable() {
         </div>
       </div>
 
-      {/* MODAL HUD (Sub-componente) */}
+      {/* MODAL HUD */}
       <ElementModal 
         selected={selected} 
         onClose={() => setSelected(null)} 
