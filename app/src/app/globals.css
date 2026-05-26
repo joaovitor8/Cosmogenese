@@ -11,17 +11,61 @@
   --color-core: var(--bg-core);
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   background-color: var(--bg-core);
   color: #e2e8f0;
-  overflow: hidden; 
+  overflow: hidden;
   user-select: none;
-  background-image: 
+  background-image:
     linear-gradient(rgba(57, 255, 20, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(57, 255, 20, 0.03) 1px, transparent 1px);
   background-size: 30px 30px;
   transition: background-color 1s ease, background-image 1s ease;
 }
+
+/* Vinheta sutil para dar profundidade ao HUD */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  z-index: 1;
+}
+
+/* Scan-lines horizontais quase imperceptíveis (efeito CRT) */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+/* Scrollbar discreta no tema toxic, caso algum container precise rolar */
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: rgba(57, 255, 20, 0.25);
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb:hover { background: rgba(57, 255, 20, 0.45); }
 
 /* Faixas de contenção radioativa animadas */
 @keyframes hazard-pan {
@@ -47,6 +91,23 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Rotação lenta usada no ícone Radar do header */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 4s linear infinite;
+}
+
+/* Pulso suave para indicadores de status */
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.animate-status-pulse {
+  animation: status-pulse 1.6s ease-in-out infinite;
+}
+
 /* =========================================
    EASTER EGG: MODO FORJA ESTELAR (CÓSMICO)
    ========================================= */
@@ -58,7 +119,7 @@ body {
 
 /* Sobrescreve o fundo global quando ativado */
 .theme-cosmic body {
-  background-image: 
+  background-image:
     radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
     radial-gradient(2px 2px at 40px 70px, #e2e8f0, rgba(0,0,0,0)),
     radial-gradient(2px 2px at 50px 160px, #cbd5e1, rgba(0,0,0,0)),
@@ -82,7 +143,7 @@ body {
     -45deg,
     rgba(0, 0, 0, 0.6),
     rgba(0, 0, 0, 0.6) 10px,
-    rgba(176, 38, 255, 0.25) 10px, /* Roxo estelar */
+    rgba(176, 38, 255, 0.25) 10px,
     rgba(176, 38, 255, 0.25) 20px
   );
   border-color: #b026ff;
@@ -94,7 +155,6 @@ body {
    MODELO ATÔMICO 3D (HUD)
    ========================================= */
 .atom-container {
-  /* Define a profundidade do 3D */
   perspective: 800px;
   transform-style: preserve-3d;
 }
