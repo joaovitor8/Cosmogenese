@@ -86,6 +86,22 @@ body {
   );
 }
 
+/* ─── HUD scanlines pattern + keyframes ──────────────────────── */
+@keyframes scanline {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.hud-scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 2px,
+    rgba(255, 255, 255, 0.04) 2px,
+    rgba(255, 255, 255, 0.04) 3px
+  );
+}
+
 /* ─── Keyframes HUD (portados do Universe) ───────────────────── */
 @keyframes hud-pulse {
   0%, 100% { opacity: 0.4; }

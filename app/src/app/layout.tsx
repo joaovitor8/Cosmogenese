@@ -4,6 +4,8 @@ import "./globals.css";
 
 import Stars from "@/src/components/Stars";
 import { Providers } from "@/src/components/Providers";
+import { Header } from "@/src/components/Header";
+import { Footer } from "@/src/components/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -62,7 +64,9 @@ export default function RootLayout({
         <Providers>
           <div aria-hidden className="fixed inset-0 -z-10 bg-grid pointer-events-none opacity-60" />
           <Stars className="fixed inset-0 -z-10" quantity={150} />
-          <main className="grow">{children}</main>
+          <Header />
+          <main className="grow pt-16">{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>
