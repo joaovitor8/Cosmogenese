@@ -99,21 +99,69 @@ export const period1and2: ChemicalElement[] = [
     number: 4,
     symbol: "Be",
     name: "Berílio",
+    nameEn: "Beryllium",
     category: "alkaline-earth-metal",
     column: 2,
     row: 2,
     summary:
       "Raro no universo, é formado através da fragmentação de núcleos mais pesados por raios cósmicos.",
+    summaryEn:
+      "Rare in the universe, formed through the fragmentation of heavier nuclei by cosmic rays.",
+    cosmicOrigin: "cosmic-ray-spallation",
+    cosmicOriginNote:
+      "Não é forjado em estrelas — nasce quando raios cósmicos esmagam núcleos de carbono e oxigênio no espaço interestelar.",
+    cosmicOriginNoteEn:
+      "Not forged in stars — it is born when cosmic rays smash carbon and oxygen nuclei in interstellar space.",
+    abundance: {
+      universe: 0.001,
+      earthCrust: 2.8,
+      earthAtmosphere: null,
+      earthOcean: 0.0000006,
+      humanBody: 0.00004,
+    },
+    biologicalRole: "toxic",
+    biologicalRoleNote:
+      "Altamente tóxico para os pulmões; suas partículas causam beriliose crônica.",
+    biologicalRoleNoteEn:
+      "Highly toxic to the lungs; its particles cause chronic berylliosis.",
+    naturalSources: ["berilo (esmeralda, água-marinha)", "bertrandita"],
+    naturalSourcesEn: ["beryl (emerald, aquamarine)", "bertrandite"],
+    discoveryYear: 1798,
+    discoveredBy: "Louis-Nicolas Vauquelin",
   },
   {
     number: 5,
     symbol: "B",
     name: "Boro",
+    nameEn: "Boron",
     category: "metalloid",
     column: 13,
     row: 2,
     summary:
       "Um elemento metaloide essencial para a estrutura das plantas e raro na crosta terrestre.",
+    summaryEn:
+      "A metalloid element essential for plant structure and rare in the Earth's crust.",
+    cosmicOrigin: "cosmic-ray-spallation",
+    cosmicOriginNote:
+      "Igual ao berílio, é forjado pela fragmentação de núcleos mais pesados quando raios cósmicos colidem no meio interestelar.",
+    cosmicOriginNoteEn:
+      "Like beryllium, it is forged by the fragmentation of heavier nuclei when cosmic rays collide in the interstellar medium.",
+    abundance: {
+      universe: 0.001,
+      earthCrust: 10,
+      earthAtmosphere: null,
+      earthOcean: 4.6,
+      humanBody: 0.7,
+    },
+    biologicalRole: "trace-essential",
+    biologicalRoleNote:
+      "Essencial para a parede celular das plantas; em humanos, suporta a saúde óssea.",
+    biologicalRoleNoteEn:
+      "Essential for plant cell walls; in humans, supports bone health.",
+    naturalSources: ["bórax", "kernita", "depósitos evaporíticos"],
+    naturalSourcesEn: ["borax", "kernite", "evaporite deposits"],
+    discoveryYear: 1808,
+    discoveredBy: "Humphry Davy & Joseph Louis Gay-Lussac",
   },
   {
     number: 6,
@@ -247,9 +295,30 @@ export const period1and2: ChemicalElement[] = [
     number: 10,
     symbol: "Ne",
     name: "Néon",
+    nameEn: "Neon",
     category: "noble-gas",
     column: 18,
     row: 2,
     summary: "Famoso pelo seu brilho avermelhado, é o quinto elemento mais comum no universo.",
+    summaryEn: "Famous for its reddish glow, it is the fifth most common element in the universe.",
+    cosmicOrigin: "stellar-fusion-high",
+    cosmicOriginNote:
+      "Produzido em massa pela queima de carbono em estrelas massivas; o quinto elemento mais abundante do universo, mas quase ausente da Terra por ser leve e inerte demais para ficar.",
+    cosmicOriginNoteEn:
+      "Mass-produced by carbon burning in massive stars; the fifth most abundant element in the universe, yet almost absent on Earth because it is too light and inert to stay.",
+    abundance: {
+      universe: 1300,
+      earthCrust: 0.005,
+      earthAtmosphere: 18,
+      earthOcean: 0.0000001,
+      humanBody: null,
+    },
+    biologicalRole: "none",
+    biologicalRoleNote: "Quimicamente inerte — não participa de nenhuma reação biológica.",
+    biologicalRoleNoteEn: "Chemically inert — does not participate in any biological reaction.",
+    naturalSources: ["atmosfera (traço)", "subproduto da liquefação do ar"],
+    naturalSourcesEn: ["atmosphere (trace)", "by-product of air liquefaction"],
+    discoveryYear: 1898,
+    discoveredBy: "William Ramsay & Morris Travers",
   },
 ];

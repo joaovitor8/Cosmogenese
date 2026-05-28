@@ -88,10 +88,8 @@ export const period3and4: ChemicalElement[] = [
       humanBody: 0.9,
     },
     biologicalRole: "none",
-    biologicalRoleNote:
-      "Sem papel biológico conhecido — em excesso pode ser neurotóxico.",
-    biologicalRoleNoteEn:
-      "No known biological role — in excess can be neurotoxic.",
+    biologicalRoleNote: "Sem papel biológico conhecido — em excesso pode ser neurotóxico.",
+    biologicalRoleNoteEn: "No known biological role — in excess can be neurotoxic.",
     naturalSources: ["bauxita", "feldspatos", "argilas"],
     naturalSourcesEn: ["bauxite", "feldspars", "clays"],
     discoveryYear: 1825,
@@ -133,47 +131,161 @@ export const period3and4: ChemicalElement[] = [
     number: 15,
     symbol: "P",
     name: "Fósforo",
+    nameEn: "Phosphorus",
     category: "nonmetal",
     column: 15,
     row: 3,
     summary:
       "Conhecido como o 'portador da luz', é essencial para o transporte de energia nas células.",
+    summaryEn:
+      "Known as the 'light-bearer', it is essential for energy transport in cells.",
+    cosmicOrigin: "stellar-fusion-high",
+    cosmicOriginNote:
+      "Produzido por queima de oxigênio em estrelas massivas; relativamente raro no universo, mas central para a vida.",
+    cosmicOriginNoteEn:
+      "Produced by oxygen burning in massive stars; relatively rare in the universe, but central to life.",
+    abundance: {
+      universe: 7,
+      earthCrust: 1050,
+      earthAtmosphere: null,
+      earthOcean: 0.06,
+      humanBody: 11000,
+    },
+    biologicalRole: "essential",
+    biologicalRoleNote:
+      "Forma o esqueleto do DNA e do RNA; carrega energia celular como ATP. Sem fósforo, não há herança nem metabolismo.",
+    biologicalRoleNoteEn:
+      "Forms the backbone of DNA and RNA; carries cellular energy as ATP. Without phosphorus, no inheritance and no metabolism.",
+    naturalSources: ["apatita", "fosforita", "guano"],
+    naturalSourcesEn: ["apatite", "phosphorite", "guano"],
+    discoveryYear: 1669,
+    discoveredBy: "Hennig Brand",
   },
   {
     number: 16,
     symbol: "S",
     name: "Enxofre",
+    nameEn: "Sulfur",
     category: "nonmetal",
     column: 16,
     row: 3,
     summary: "Identificado desde a antiguidade, é comum em regiões vulcânicas e fontes termais.",
+    summaryEn: "Identified since antiquity, common in volcanic regions and hot springs.",
+    cosmicOrigin: "stellar-fusion-high",
+    cosmicOriginNote:
+      "Forjado pela queima de oxigênio em estrelas massivas; o décimo elemento mais comum do universo.",
+    cosmicOriginNoteEn:
+      "Forged by oxygen burning in massive stars; the tenth most common element in the universe.",
+    abundance: {
+      universe: 500,
+      earthCrust: 350,
+      earthAtmosphere: null,
+      earthOcean: 905,
+      humanBody: 2500,
+    },
+    biologicalRole: "essential",
+    biologicalRoleNote:
+      "Forma pontes dissulfeto que dobram proteínas; presente em dois aminoácidos essenciais (cisteína e metionina).",
+    biologicalRoleNoteEn:
+      "Forms disulfide bridges that fold proteins; present in two essential amino acids (cysteine and methionine).",
+    naturalSources: ["depósitos vulcânicos", "gipsita", "pirita", "petróleo"],
+    naturalSourcesEn: ["volcanic deposits", "gypsum", "pyrite", "petroleum"],
+    discoveryYear: "ancient",
+    discoveredBy: "Pré-histórico",
   },
   {
     number: 17,
     symbol: "Cl",
     name: "Cloro",
+    nameEn: "Chlorine",
     category: "nonmetal",
     column: 17,
     row: 3,
     summary: "Um gás denso e tóxico, mas vital para manter o equilíbrio de fluidos nos seres vivos.",
+    summaryEn: "A dense, toxic gas, yet vital for maintaining fluid balance in living beings.",
+    cosmicOrigin: "stellar-fusion-high",
+    cosmicOriginNote:
+      "Produzido por queima de oxigênio em estrelas massivas e disperso em supernovas.",
+    cosmicOriginNoteEn:
+      "Produced by oxygen burning in massive stars and dispersed in supernovae.",
+    abundance: {
+      universe: 1,
+      earthCrust: 145,
+      earthAtmosphere: null,
+      earthOcean: 19500,
+      humanBody: 1200,
+    },
+    biologicalRole: "essential",
+    biologicalRoleNote:
+      "Como íon cloreto, regula a pressão osmótica nas células e produz o ácido clorídrico do estômago.",
+    biologicalRoleNoteEn:
+      "As chloride ion, regulates osmotic pressure in cells and produces hydrochloric acid in the stomach.",
+    naturalSources: ["sal-gema (halita)", "água do mar", "salmoura"],
+    naturalSourcesEn: ["rock salt (halite)", "seawater", "brines"],
+    discoveryYear: 1774,
+    discoveredBy: "Carl Wilhelm Scheele",
   },
   {
     number: 18,
     symbol: "Ar",
     name: "Árgon",
+    nameEn: "Argon",
     category: "noble-gas",
     column: 18,
     row: 3,
     summary: "O terceiro gás mais abundante na atmosfera da Terra, sendo quimicamente inerte.",
+    summaryEn: "The third most abundant gas in Earth's atmosphere, chemically inert.",
+    cosmicOrigin: "stellar-fusion-high",
+    cosmicOriginNote:
+      "Produzido pela queima de oxigênio em estrelas massivas; na Terra, vem majoritariamente do decaimento radioativo do potássio-40.",
+    cosmicOriginNoteEn:
+      "Produced by oxygen burning in massive stars; on Earth, comes mostly from radioactive decay of potassium-40.",
+    abundance: {
+      universe: 70,
+      earthCrust: 1.2,
+      earthAtmosphere: 9340,
+      earthOcean: 0.45,
+      humanBody: null,
+    },
+    biologicalRole: "none",
+    biologicalRoleNote: "Inerte — não interage com a química biológica.",
+    biologicalRoleNoteEn: "Inert — does not interact with biological chemistry.",
+    naturalSources: ["atmosfera (~1%)", "subproduto da liquefação do ar"],
+    naturalSourcesEn: ["atmosphere (~1%)", "by-product of air liquefaction"],
+    discoveryYear: 1894,
+    discoveredBy: "Lord Rayleigh & William Ramsay",
   },
   {
     number: 19,
     symbol: "K",
     name: "Potássio",
+    nameEn: "Potassium",
     category: "alkali-metal",
     column: 1,
     row: 4,
     summary: "Um metal essencial para o funcionamento dos nervos e do coração.",
+    summaryEn: "A metal essential for the functioning of nerves and the heart.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Forjado em estrelas massivas pré-supernova; isótopo K-40 fornece calor radioativo ao interior da Terra.",
+    cosmicOriginNoteEn:
+      "Forged in massive pre-supernova stars; the K-40 isotope provides radioactive heat to Earth's interior.",
+    abundance: {
+      universe: 3,
+      earthCrust: 20900,
+      earthAtmosphere: null,
+      earthOcean: 416,
+      humanBody: 2000,
+    },
+    biologicalRole: "essential",
+    biologicalRoleNote:
+      "Junto com o sódio, gera o potencial elétrico que faz seu coração bater e seus músculos contraírem.",
+    biologicalRoleNoteEn:
+      "Along with sodium, generates the electrical potential that makes your heart beat and muscles contract.",
+    naturalSources: ["silvita", "carnalita", "feldspato potássico"],
+    naturalSourcesEn: ["sylvite", "carnallite", "potassium feldspar"],
+    discoveryYear: 1807,
+    discoveredBy: "Humphry Davy",
   },
   {
     number: 20,
@@ -211,48 +323,163 @@ export const period3and4: ChemicalElement[] = [
     number: 21,
     symbol: "Sc",
     name: "Escândio",
+    nameEn: "Scandium",
     category: "transition-metal",
     column: 3,
     row: 4,
     summary:
       "Um metal leve usado em ligas de alumínio para a indústria aeroespacial e bicicletas de alta performance.",
+    summaryEn:
+      "A lightweight metal used in aluminum alloys for aerospace and high-performance bicycles.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Produzido principalmente em supernovas; abundante no Sol mas raro na crosta da Terra.",
+    cosmicOriginNoteEn:
+      "Mainly produced in supernovae; abundant in the Sun but rare in Earth's crust.",
+    abundance: {
+      universe: 0.03,
+      earthCrust: 22,
+      earthAtmosphere: null,
+      earthOcean: 0.0000006,
+      humanBody: null,
+    },
+    biologicalRole: "none",
+    biologicalRoleNote: "Sem papel biológico conhecido; baixa toxicidade.",
+    biologicalRoleNoteEn: "No known biological role; low toxicity.",
+    naturalSources: ["thortveitita", "subproduto de mineração de urânio"],
+    naturalSourcesEn: ["thortveitite", "by-product of uranium mining"],
+    discoveryYear: 1879,
+    discoveredBy: "Lars Fredrik Nilson",
   },
   {
     number: 22,
     symbol: "Ti",
     name: "Titânio",
+    nameEn: "Titanium",
     category: "transition-metal",
     column: 4,
     row: 4,
     summary: "Conhecido por sua extrema resistência e leveza, é forjado durante as explosões de supernovas.",
+    summaryEn: "Known for extreme strength and lightness, forged during supernova explosions.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Sintetizado em estrelas massivas e ejetado em supernovas; isótopo Ti-44 é um marcador da nucleossíntese explosiva.",
+    cosmicOriginNoteEn:
+      "Synthesized in massive stars and ejected in supernovae; the Ti-44 isotope is a marker of explosive nucleosynthesis.",
+    abundance: {
+      universe: 3,
+      earthCrust: 5650,
+      earthAtmosphere: null,
+      earthOcean: 0.001,
+      humanBody: null,
+    },
+    biologicalRole: "none",
+    biologicalRoleNote:
+      "Biologicamente inerte — por isso é o metal preferido para implantes médicos e próteses ósseas.",
+    biologicalRoleNoteEn:
+      "Biologically inert — that's why it's the preferred metal for medical implants and bone prostheses.",
+    naturalSources: ["ilmenita", "rutilo", "anatásio"],
+    naturalSourcesEn: ["ilmenite", "rutile", "anatase"],
+    discoveryYear: 1791,
+    discoveredBy: "William Gregor",
   },
   {
     number: 23,
     symbol: "V",
     name: "Vanádio",
+    nameEn: "Vanadium",
     category: "transition-metal",
     column: 5,
     row: 4,
     summary: "Um metal duro que leva o nome da deusa nórdica da beleza, usado para fortalecer o aço.",
+    summaryEn: "A hard metal named after the Norse goddess of beauty, used to strengthen steel.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Forjado por queima de silício em estrelas massivas pré-supernova.",
+    cosmicOriginNoteEn:
+      "Forged by silicon burning in massive pre-supernova stars.",
+    abundance: {
+      universe: 1,
+      earthCrust: 120,
+      earthAtmosphere: null,
+      earthOcean: 0.0019,
+      humanBody: 0.02,
+    },
+    biologicalRole: "trace-essential",
+    biologicalRoleNote:
+      "Traços parecem ajudar no metabolismo da glicose; tunicados marinhos concentram vanádio em níveis impressionantes.",
+    biologicalRoleNoteEn:
+      "Traces seem to aid glucose metabolism; marine tunicates concentrate vanadium at impressive levels.",
+    naturalSources: ["vanadinita", "patronita", "subproduto de processamento de petróleo"],
+    naturalSourcesEn: ["vanadinite", "patronite", "by-product of petroleum processing"],
+    discoveryYear: 1801,
+    discoveredBy: "Andrés Manuel del Río",
   },
   {
     number: 24,
     symbol: "Cr",
     name: "Cromo",
+    nameEn: "Chromium",
     category: "transition-metal",
     column: 6,
     row: 4,
     summary: "Notável por seu alto polimento e resistência, é o que dá a cor vibrante aos rubis e esmeraldas.",
+    summaryEn: "Notable for high polish and durability, it gives vibrant color to rubies and emeralds.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Produzido em estrelas massivas pré-supernova e em supernovas Tipo Ia.",
+    cosmicOriginNoteEn:
+      "Produced in massive pre-supernova stars and Type Ia supernovae.",
+    abundance: {
+      universe: 15,
+      earthCrust: 102,
+      earthAtmosphere: null,
+      earthOcean: 0.0003,
+      humanBody: 0.03,
+    },
+    biologicalRole: "trace-essential",
+    biologicalRoleNote:
+      "Em traços ajuda na ação da insulina; em forma hexavalente é cancerígeno.",
+    biologicalRoleNoteEn:
+      "In traces helps insulin action; in hexavalent form it is carcinogenic.",
+    naturalSources: ["cromita", "pigmentos minerais"],
+    naturalSourcesEn: ["chromite", "mineral pigments"],
+    discoveryYear: 1797,
+    discoveredBy: "Louis-Nicolas Vauquelin",
   },
   {
     number: 25,
     symbol: "Mn",
     name: "Manganês",
+    nameEn: "Manganese",
     category: "transition-metal",
     column: 7,
     row: 4,
     summary:
       "Essencial para a produção de ferro e aço, pode ser encontrado em grandes nódulos no fundo do oceano.",
+    summaryEn:
+      "Essential for iron and steel production, found in large nodules on the ocean floor.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Forjado principalmente em supernovas Tipo Ia pela queima explosiva de silício.",
+    cosmicOriginNoteEn:
+      "Forged mainly in Type Ia supernovae by explosive silicon burning.",
+    abundance: {
+      universe: 8,
+      earthCrust: 950,
+      earthAtmosphere: null,
+      earthOcean: 0.0004,
+      humanBody: 0.2,
+    },
+    biologicalRole: "trace-essential",
+    biologicalRoleNote:
+      "Cofator de enzimas antioxidantes e da fotossíntese — sem manganês, nenhuma planta libera oxigênio.",
+    biologicalRoleNoteEn:
+      "Cofactor of antioxidant enzymes and photosynthesis — without manganese, no plant releases oxygen.",
+    naturalSources: ["pirolusita", "nódulos polimetálicos do oceano"],
+    naturalSourcesEn: ["pyrolusite", "polymetallic ocean nodules"],
+    discoveryYear: 1774,
+    discoveredBy: "Johan Gottlieb Gahn",
   },
   {
     number: 26,
@@ -292,21 +519,69 @@ export const period3and4: ChemicalElement[] = [
     number: 27,
     symbol: "Co",
     name: "Cobalto",
+    nameEn: "Cobalt",
     category: "transition-metal",
     column: 9,
     row: 4,
     summary:
       "Famoso pelo seu tom de azul profundo em pigmentos antigos, é crucial para baterias de íons de lítio modernas.",
+    summaryEn:
+      "Famous for its deep blue tone in ancient pigments, crucial for modern lithium-ion batteries.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Forjado em supernovas; isótopo Co-56 é a fonte da luz visível em supernovas semanas após a explosão.",
+    cosmicOriginNoteEn:
+      "Forged in supernovae; the Co-56 isotope is the source of visible light in supernovae weeks after explosion.",
+    abundance: {
+      universe: 3,
+      earthCrust: 25,
+      earthAtmosphere: null,
+      earthOcean: 0.00002,
+      humanBody: 0.0015,
+    },
+    biologicalRole: "trace-essential",
+    biologicalRoleNote:
+      "Núcleo da vitamina B12 — sem cobalto, o sangue não se forma adequadamente.",
+    biologicalRoleNoteEn:
+      "Core of vitamin B12 — without cobalt, blood does not form properly.",
+    naturalSources: ["cobaltita", "subproduto de mineração de níquel e cobre"],
+    naturalSourcesEn: ["cobaltite", "by-product of nickel and copper mining"],
+    discoveryYear: 1735,
+    discoveredBy: "Georg Brandt",
   },
   {
     number: 28,
     symbol: "Ni",
     name: "Níquel",
+    nameEn: "Nickel",
     category: "transition-metal",
     column: 10,
     row: 4,
     summary:
       "Um dos componentes centrais do núcleo da Terra e de grande parte dos meteoritos que caem no nosso planeta.",
+    summaryEn:
+      "A central component of the Earth's core and of most meteorites that fall on our planet.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Produzido em quantidades massivas por supernovas Tipo Ia; é o elemento mais abundante do núcleo da Terra depois do ferro.",
+    cosmicOriginNoteEn:
+      "Mass-produced by Type Ia supernovae; the most abundant element in Earth's core after iron.",
+    abundance: {
+      universe: 80,
+      earthCrust: 84,
+      earthAtmosphere: null,
+      earthOcean: 0.0066,
+      humanBody: 0.014,
+    },
+    biologicalRole: "trace-essential",
+    biologicalRoleNote:
+      "Cofator de algumas enzimas em bactérias; em humanos, é principalmente alergênico (causa dermatite de contato).",
+    biologicalRoleNoteEn:
+      "Cofactor of some bacterial enzymes; in humans, mainly allergenic (causes contact dermatitis).",
+    naturalSources: ["pentlandita", "garnierita", "meteoritos metálicos"],
+    naturalSourcesEn: ["pentlandite", "garnierite", "metallic meteorites"],
+    discoveryYear: 1751,
+    discoveredBy: "Axel Fredrik Cronstedt",
   },
   {
     number: 29,
@@ -344,68 +619,228 @@ export const period3and4: ChemicalElement[] = [
     number: 30,
     symbol: "Zn",
     name: "Zinco",
+    nameEn: "Zinc",
     category: "transition-metal",
     column: 12,
     row: 4,
     summary:
       "Vital para o sistema imunológico biológico e extensivamente usado para proteger o aço contra a corrosão.",
+    summaryEn:
+      "Vital for the biological immune system and extensively used to protect steel from corrosion.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Produzido pelos processos s e r em estrelas AGB e supernovas.",
+    cosmicOriginNoteEn:
+      "Produced by s- and r-processes in AGB stars and supernovae.",
+    abundance: {
+      universe: 0.3,
+      earthCrust: 70,
+      earthAtmosphere: null,
+      earthOcean: 0.005,
+      humanBody: 33,
+    },
+    biologicalRole: "essential",
+    biologicalRoleNote:
+      "Cofator de mais de 300 enzimas humanas; crucial para imunidade, cicatrização e síntese de DNA.",
+    biologicalRoleNoteEn:
+      "Cofactor for more than 300 human enzymes; crucial for immunity, healing, and DNA synthesis.",
+    naturalSources: ["esfalerita", "smithsonita"],
+    naturalSourcesEn: ["sphalerite", "smithsonite"],
+    discoveryYear: 1746,
+    discoveredBy: "Andreas Sigismund Marggraf",
   },
   {
     number: 31,
     symbol: "Ga",
     name: "Gálio",
+    nameEn: "Gallium",
     category: "post-transition-metal",
     column: 13,
     row: 4,
     summary: "Um metal intrigante que possui um ponto de fusão tão baixo que derrete na palma da mão humana.",
+    summaryEn: "An intriguing metal with a melting point so low it melts in the palm of your hand.",
+    cosmicOrigin: "stellar-fusion-low",
+    cosmicOriginNote:
+      "Produzido pelo processo-s em estrelas AGB; predito por Mendeleiev antes da descoberta.",
+    cosmicOriginNoteEn:
+      "Produced by the s-process in AGB stars; predicted by Mendeleev before its discovery.",
+    abundance: {
+      universe: 0.01,
+      earthCrust: 19,
+      earthAtmosphere: null,
+      earthOcean: 0.00003,
+      humanBody: null,
+    },
+    biologicalRole: "none",
+    biologicalRoleNote: "Sem papel biológico conhecido; baixa toxicidade aguda.",
+    biologicalRoleNoteEn: "No known biological role; low acute toxicity.",
+    naturalSources: ["subproduto de mineração de bauxita e zinco"],
+    naturalSourcesEn: ["by-product of bauxite and zinc mining"],
+    discoveryYear: 1875,
+    discoveredBy: "Paul-Émile Lecoq de Boisbaudran",
   },
   {
     number: 32,
     symbol: "Ge",
     name: "Germânio",
+    nameEn: "Germanium",
     category: "metalloid",
     column: 14,
     row: 4,
     summary:
       "Um semicondutor brilhante crucial para o desenvolvimento de fibras ópticas e painéis solares para satélites.",
+    summaryEn:
+      "A brilliant semiconductor crucial for the development of optical fibers and satellite solar panels.",
+    cosmicOrigin: "stellar-fusion-low",
+    cosmicOriginNote:
+      "Produzido pelo processo-s em estrelas AGB; também previsto por Mendeleiev.",
+    cosmicOriginNoteEn:
+      "Produced by the s-process in AGB stars; also predicted by Mendeleev.",
+    abundance: {
+      universe: 0.2,
+      earthCrust: 1.5,
+      earthAtmosphere: null,
+      earthOcean: 0.00006,
+      humanBody: null,
+    },
+    biologicalRole: "none",
+    biologicalRoleNote: "Sem papel biológico conhecido; alguns compostos são levemente tóxicos.",
+    biologicalRoleNoteEn: "No known biological role; some compounds are mildly toxic.",
+    naturalSources: ["argirodita", "subproduto de minério de zinco e carvão"],
+    naturalSourcesEn: ["argyrodite", "by-product of zinc ore and coal"],
+    discoveryYear: 1886,
+    discoveredBy: "Clemens Winkler",
   },
   {
     number: 33,
     symbol: "As",
     name: "Arsênio",
+    nameEn: "Arsenic",
     category: "metalloid",
     column: 15,
     row: 4,
     summary:
       "Historicamente famoso como um elemento letal, hoje é utilizado na fabricação de semicondutores especiais.",
+    summaryEn:
+      "Historically famous as a lethal element, today used in the manufacture of specialty semiconductors.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Produzido pelos processos s e r em estrelas AGB e supernovas.",
+    cosmicOriginNoteEn:
+      "Produced by s- and r-processes in AGB stars and supernovae.",
+    abundance: {
+      universe: 0.008,
+      earthCrust: 1.8,
+      earthAtmosphere: null,
+      earthOcean: 0.0037,
+      humanBody: 0.0007,
+    },
+    biologicalRole: "toxic",
+    biologicalRoleNote:
+      "Famoso veneno; em traços pode até ser metabolizado, mas em qualquer dose maior causa danos graves.",
+    biologicalRoleNoteEn:
+      "Famous poison; in traces it can even be metabolized, but in any larger dose causes severe damage.",
+    naturalSources: ["arsenopirita", "realgar", "ourpimento"],
+    naturalSourcesEn: ["arsenopyrite", "realgar", "orpiment"],
+    discoveryYear: 1250,
+    discoveredBy: "Albertus Magnus",
   },
   {
     number: 34,
     symbol: "Se",
     name: "Selênio",
+    nameEn: "Selenium",
     category: "nonmetal",
     column: 16,
     row: 4,
     summary: "Batizado em homenagem à Lua (Selene), possui propriedades fotovoltaicas e é sensível à luz.",
+    summaryEn: "Named after the Moon (Selene), it has photovoltaic properties and is light-sensitive.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Forjado por processos s e r em estrelas AGB e supernovas.",
+    cosmicOriginNoteEn:
+      "Forged by s- and r-processes in AGB stars and supernovae.",
+    abundance: {
+      universe: 0.03,
+      earthCrust: 0.05,
+      earthAtmosphere: null,
+      earthOcean: 0.0002,
+      humanBody: 0.2,
+    },
+    biologicalRole: "trace-essential",
+    biologicalRoleNote:
+      "Cofator de enzimas antioxidantes (glutationa peroxidase); sua deficiência causa cardiomiopatia.",
+    biologicalRoleNoteEn:
+      "Cofactor of antioxidant enzymes (glutathione peroxidase); its deficiency causes cardiomyopathy.",
+    naturalSources: ["subproduto de refino de cobre", "solos seleníferos"],
+    naturalSourcesEn: ["by-product of copper refining", "seleniferous soils"],
+    discoveryYear: 1817,
+    discoveredBy: "Jöns Jacob Berzelius",
   },
   {
     number: 35,
     symbol: "Br",
     name: "Bromo",
+    nameEn: "Bromine",
     category: "halogen",
     column: 17,
     row: 4,
     summary:
       "Um dos raros elementos que é líquido à temperatura ambiente, emitindo um vapor avermelhado denso.",
+    summaryEn:
+      "One of the few elements that is liquid at room temperature, emitting a dense reddish vapor.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Forjado pelo processo-r em supernovas e em fusões de estrelas de nêutrons.",
+    cosmicOriginNoteEn:
+      "Forged by the r-process in supernovae and in neutron star mergers.",
+    abundance: {
+      universe: 0.07,
+      earthCrust: 2.4,
+      earthAtmosphere: null,
+      earthOcean: 67,
+      humanBody: 2.9,
+    },
+    biologicalRole: "trace-essential",
+    biologicalRoleNote:
+      "Recentemente descoberto como essencial para a montagem do colágeno IV — a base das membranas basais dos tecidos.",
+    biologicalRoleNoteEn:
+      "Recently discovered as essential for collagen IV assembly — the basis of tissue basement membranes.",
+    naturalSources: ["salmoura natural", "água do mar", "salinas evaporíticas"],
+    naturalSourcesEn: ["natural brines", "seawater", "evaporite salt deposits"],
+    discoveryYear: 1826,
+    discoveredBy: "Antoine Jérôme Balard",
   },
   {
     number: 36,
     symbol: "Kr",
     name: "Criptônio",
+    nameEn: "Krypton",
     category: "noble-gas",
     column: 18,
     row: 4,
     summary:
       "Um gás nobre inerte que emite um brilho esbranquiçado agudo, muito usado em flashes fotográficos de alta velocidade.",
+    summaryEn:
+      "An inert noble gas emitting a sharp whitish glow, used in high-speed photographic flashes.",
+    cosmicOrigin: "supernova",
+    cosmicOriginNote:
+      "Forjado por processos s e r em supernovas; raro o suficiente para o nome significar 'escondido' em grego.",
+    cosmicOriginNoteEn:
+      "Forged by s- and r-processes in supernovae; rare enough that its name means 'hidden' in Greek.",
+    abundance: {
+      universe: 0.4,
+      earthCrust: 0.0001,
+      earthAtmosphere: 1.1,
+      earthOcean: 0.0000002,
+      humanBody: null,
+    },
+    biologicalRole: "none",
+    biologicalRoleNote: "Quimicamente inerte — sem efeito biológico em condições normais.",
+    biologicalRoleNoteEn: "Chemically inert — no biological effect under normal conditions.",
+    naturalSources: ["atmosfera (traço)", "subproduto da liquefação do ar"],
+    naturalSourcesEn: ["atmosphere (trace)", "by-product of air liquefaction"],
+    discoveryYear: 1898,
+    discoveredBy: "William Ramsay & Morris Travers",
   },
 ];
