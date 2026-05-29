@@ -25,7 +25,7 @@ export function HudPanel({
       className={cn(
         "relative rounded-2xl p-4 md:p-6",
         variant === "glass" &&
-          "border border-white/10 bg-white/[0.03] backdrop-blur-xl",
+          "border border-white/10 bg-white/3 backdrop-blur-xl",
         variant === "solid" && "border border-white/5 bg-[#05050a]",
         className,
       )}
@@ -54,7 +54,7 @@ export function HudPanel({
       {(label || badge) && (
         <div className="flex items-center justify-between mb-3 pb-2 border-b border-white/5 gap-3">
           {label ? (
-            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-[color:var(--muted-foreground)]">
+            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-muted-foreground">
               {label}
             </span>
           ) : (

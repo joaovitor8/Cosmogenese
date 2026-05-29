@@ -1,34 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import { Radar } from "lucide-react";
+import { Radar, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
-import { elements, type ChemicalElement, type ElementCategory } from "@/src/data/elementsData";
+import { elements, type ChemicalElement } from "@/src/data/elementsData";
 import { useT } from "@/src/lib/i18n";
+import { useElementFilter } from "@/src/hooks/useElementFilter";
 
 import { ElementCell } from "./ElementCell";
 import { ElementModal } from "./ElementModal";
 import { ScannerPanel } from "./ScannerPanel";
+import { CosmicTimeline } from "./CosmicTimeline";
 
 export default function PeriodicTable() {
   const t = useT();
+  const filter = useElementFilter();
   const [selected, setSelected] = useState<ChemicalElement | null>(null);
-  const [activeFilter, setActiveFilter] = useState<ElementCategory | null>(null);
   const [showFilters, setShowFilters] = useState(false);
-
-  const toggleFilter = (categoryId: ElementCategory) =>
-    setActiveFilter((prev) => (prev === categoryId ? null : categoryId));
+  const [showTimeline, setShowTimeline] = useState(false);
 
   const closeFilters = () => {
     setShowFilters(false);
-    setActiveFilter(null);
+    filter.clear();
+  };
+
+  const openFromTimeline = (el: ChemicalElement) => {
+    setShowTimeline(false);
+    setSelected(el);
   };
 
   return (
     <div className="flex flex-col items-center w-full min-h-[calc(100vh-4rem)] px-2 sm:px-4 lg:px-8 py-4 relative">
-      {/* Title strip + Scanner toggle */}
-      <div className="w-full max-w-[95vw] lg:max-w-[85vw] flex items-center justify-between mb-4 z-30">
+      {/* Title strip + controls */}
+      <div className="w-full max-w-[95vw] lg:max-w-[85vw] flex items-center justify-between mb-4 z-30 gap-3">
         <motion.div
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
@@ -42,25 +47,30 @@ export default function PeriodicTable() {
           </h1>
         </motion.div>
 
-        <button
-          onClick={() => setShowFilters(!showFilters)}
-          className={`flex items-center gap-2 px-4 py-2 font-mono text-xs uppercase rounded-full border transition-all duration-300 ${
-            showFilters || activeFilter
-              ? "border-[color:var(--primary)] text-[color:var(--primary)] bg-[color:var(--primary)]/10 shadow-[0_0_18px_oklch(0.60_0.18_290_/_0.30)]"
-              : "border-white/15 text-white/60 hover:border-white/40 hover:text-white bg-black/30"
-          }`}
-        >
-          <Radar className={`w-4 h-4 ${activeFilter ? "animate-spin-slow" : ""}`} />
-          {t("scanner.title")}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowTimeline(true)}
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 font-mono text-xs uppercase rounded-full border border-white/15 text-white/60 hover:border-[color:var(--primary)]/60 hover:text-[color:var(--primary)] bg-black/30 transition-all"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span className="hidden sm:inline">{t("timeline.open")}</span>
+          </button>
+
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className={`flex items-center gap-2 px-3 sm:px-4 py-2 font-mono text-xs uppercase rounded-full border transition-all duration-300 ${
+              showFilters || filter.isActive
+                ? "border-[color:var(--primary)] text-[color:var(--primary)] bg-[color:var(--primary)]/10 shadow-[0_0_18px_oklch(0.60_0.18_290_/_0.30)]"
+                : "border-white/15 text-white/60 hover:border-white/40 hover:text-white bg-black/30"
+            }`}
+          >
+            <Radar className={`w-4 h-4 ${filter.isActive ? "animate-spin-slow" : ""}`} />
+            <span className="hidden sm:inline">{t("scanner.title")}</span>
+          </button>
+        </div>
       </div>
 
-      <ScannerPanel
-        showFilters={showFilters}
-        activeFilter={activeFilter}
-        onToggleFilter={toggleFilter}
-        onClose={closeFilters}
-      />
+      <ScannerPanel showFilters={showFilters} filter={filter} onClose={closeFilters} />
 
       {/* GRID DA TABELA */}
       <div
@@ -81,7 +91,7 @@ export default function PeriodicTable() {
             <ElementCell
               key={el.number}
               element={el}
-              activeFilter={activeFilter}
+              dimmed={filter.isDimmed(el)}
               onClick={setSelected}
             />
           ))}
@@ -89,6 +99,11 @@ export default function PeriodicTable() {
       </div>
 
       <ElementModal selected={selected} onClose={() => setSelected(null)} />
+      <CosmicTimeline
+        open={showTimeline}
+        onClose={() => setShowTimeline(false)}
+        onSelect={openFromTimeline}
+      />
     </div>
   );
 }

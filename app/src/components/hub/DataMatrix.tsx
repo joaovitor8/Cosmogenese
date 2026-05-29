@@ -33,9 +33,9 @@ export function DataMatrix({ data, className, columns = 2 }: DataMatrixProps) {
       {data.map((dp, i) => (
         <div
           key={i}
-          className="bg-[color:var(--background)]/70 backdrop-blur-sm p-3 flex flex-col gap-1"
+          className="bg-(--background)/70 backdrop-blur-sm p-3 flex flex-col gap-1"
         >
-          <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-[color:var(--muted-foreground)]/70">
+          <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-(--muted-foreground)/70">
             {dp.label}
           </span>
           <div
@@ -51,7 +51,7 @@ export function DataMatrix({ data, className, columns = 2 }: DataMatrixProps) {
           >
             {dp.value}
             {dp.unit && (
-              <span className="ml-1 text-[10px] font-normal text-[color:var(--muted-foreground)]/70">
+              <span className="ml-1 text-[10px] font-normal text-(--muted-foreground)/70">
                 {dp.unit}
               </span>
             )}

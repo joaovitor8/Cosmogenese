@@ -41,6 +41,9 @@ export const dict = {
   "scanner.byCategory": { pt: "Filtrar por categoria", en: "Filter by category" },
   "scanner.byOrigin": { pt: "Filtrar por origem cósmica", en: "Filter by cosmic origin" },
   "scanner.byBiology": { pt: "Filtrar por papel biológico", en: "Filter by biological role" },
+  "scanner.axisCategory": { pt: "Categoria", en: "Category" },
+  "scanner.axisOrigin": { pt: "Origem", en: "Origin" },
+  "scanner.axisBiology": { pt: "Vida", en: "Life" },
   "scanner.clear": { pt: "Limpar filtros", en: "Clear filters" },
   "scanner.all": { pt: "Todos", en: "All" },
 
@@ -99,6 +102,14 @@ export const dict = {
     pt: "Do Big Bang à criação humana — a saga dos átomos.",
     en: "From the Big Bang to human creation — the saga of atoms.",
   },
+  "timeline.open": { pt: "Linha do Tempo", en: "Timeline" },
+  "timeline.count": { pt: "elementos", en: "elements" },
+
+  /* Dossiê estendido (API) */
+  "details.panel": { pt: "Dossiê Estendido", en: "Extended Dossier" },
+  "details.via": { pt: "via Wikipédia", en: "via Wikipedia" },
+  "details.readMore": { pt: "Ler na Wikipédia", en: "Read on Wikipedia" },
+  "details.empty": { pt: "Sem dados enciclopédicos disponíveis.", en: "No encyclopedic data available." },
 
   /* Comuns */
   "common.retry": { pt: "Tentar de novo", en: "Try again" },

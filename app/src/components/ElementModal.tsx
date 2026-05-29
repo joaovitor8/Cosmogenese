@@ -1,69 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Atom,
-  Disc,
-  Droplet,
-  ExternalLink,
-  Flame,
-  FlaskConical,
-  Heart,
-  Leaf,
-  Minus,
-  Mountain,
-  ShieldAlert,
-  Sparkles,
-  Sprout,
-  Star,
-  Sun,
-  Wind,
-  X,
-  Zap,
-  type LucideIcon,
-} from "lucide-react";
+import { Droplet, ExternalLink, Heart, Mountain, Sparkles, Wind, X, type LucideIcon } from "lucide-react";
 
-import {
-  type AbundanceProfile,
-  type BiologicalRole,
-  type ChemicalElement,
-  type CosmicOrigin,
-} from "@/src/data/elementsData";
+import { type AbundanceProfile, type ChemicalElement } from "@/src/data/elementsData";
+
 import { categoryAccent } from "@/src/utils/tableConstants";
+import { COSMIC_ICON } from "@/src/utils/cosmicMeta";
+import { BIOLOGY_ICON, BIOLOGY_TINT } from "@/src/utils/bioMeta";
 import { pickLocale, useLocale, type DictKey } from "@/src/lib/i18n";
-import { HudPanel } from "./hud";
+import { useElementDetails } from "@/src/hooks/useElementDetails";
+
+import { HudPanel } from "./hub/HudPanel";
+import { TelemetrySpinner } from "./hub/TelemetrySpinner";
+import { CommsFailure } from "./hub/CommsFailure";
 
 interface ElementModalProps {
   selected: ChemicalElement | null;
   onClose: () => void;
 }
-
-const COSMIC_ICON: Record<CosmicOrigin, LucideIcon> = {
-  "big-bang":                Sparkles,
-  "cosmic-ray-spallation":   Zap,
-  "stellar-fusion-low":      Sun,
-  "stellar-fusion-high":     Flame,
-  "supernova":               Star,
-  "neutron-star-merger":     Atom,
-  "white-dwarf-explosion":   Disc,
-  "human-made":              FlaskConical,
-};
-
-const BIOLOGY_ICON: Record<BiologicalRole, LucideIcon> = {
-  "essential":       Heart,
-  "trace-essential": Sprout,
-  "beneficial":      Leaf,
-  "toxic":           ShieldAlert,
-  "none":            Minus,
-};
-
-const BIOLOGY_TINT: Record<BiologicalRole, string> = {
-  "essential":       "oklch(0.74 0.15 145)",
-  "trace-essential": "oklch(0.78 0.14 130)",
-  "beneficial":      "oklch(0.72 0.14 200)",
-  "toxic":           "oklch(0.65 0.22 25)",
-  "none":            "oklch(0.65 0.02 260)",
-};
 
 /** Normaliza ppm para 0..1 numa escala logarítmica. Total = 10^6 ppm = 100%. */
 function logRatio(ppm: number | null | undefined): number {
@@ -109,11 +65,11 @@ export function ElementModal({ selected, onClose }: ElementModalProps) {
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.92, y: 20 }}
           transition={{ type: "spring", stiffness: 380, damping: 32 }}
-          className="relative w-full max-w-5xl my-8 rounded-2xl border border-white/10 bg-[color:var(--card)]/90 backdrop-blur-2xl shadow-2xl"
+          className="relative w-full max-w-5xl my-8 rounded-2xl border border-white/10 bg-(--card)/90 backdrop-blur-2xl shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header strip */}
-          <div className="flex items-start justify-between p-5 sm:p-6 border-b border-white/[0.06]">
+          <div className="flex items-start justify-between p-5 sm:p-6 border-b border-white/6">
             <div className="flex flex-col gap-1">
               <span
                 className="font-mono text-[10px] tracking-[0.35em] uppercase"
@@ -121,7 +77,7 @@ export function ElementModal({ selected, onClose }: ElementModalProps) {
               >
                 {codename}
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl tracking-[0.1em] uppercase">
+              <h2 className="font-serif text-3xl sm:text-4xl tracking-widest uppercase">
                 {name}
               </h2>
               <span
@@ -172,9 +128,7 @@ export function ElementModal({ selected, onClose }: ElementModalProps) {
                     boxShadow: `0 0 30px ${accent}33 inset`,
                   }}
                 >
-                  <span className="font-mono text-xs opacity-70 -mb-1">
-                    {selected.number}
-                  </span>
+                  <span className="font-mono text-xs opacity-70 -mb-1">{selected.number}</span>
                   <span
                     className="text-4xl sm:text-5xl font-bold"
                     style={{ filter: `drop-shadow(0 0 12px ${accent})` }}
@@ -184,7 +138,7 @@ export function ElementModal({ selected, onClose }: ElementModalProps) {
                 </div>
               </div>
 
-              <p className="text-sm text-[color:var(--muted-foreground)] leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 {summary}
               </p>
             </div>
@@ -198,11 +152,8 @@ export function ElementModal({ selected, onClose }: ElementModalProps) {
           </div>
 
           {/* Footer telemetry */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px border-t border-white/[0.06] bg-white/[0.02] rounded-b-2xl overflow-hidden">
-            <TelemetryCell
-              label={t("modal.discoveredBy")}
-              value={selected.discoveredBy ?? "—"}
-            />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px border-t border-white/6 bg-white/2">
+            <TelemetryCell label={t("modal.discoveredBy")} value={selected.discoveredBy ?? "—"} />
             <TelemetryCell
               label={t("modal.year")}
               value={
@@ -215,19 +166,81 @@ export function ElementModal({ selected, onClose }: ElementModalProps) {
             <TelemetryCell label={t("modal.row")} value={selected.row.toString()} />
           </div>
 
-          {/* CTA — preparado para Fase 5 */}
-          <div className="flex justify-end p-4">
-            <button
-              disabled
-              title={t("modal.moreDetails")}
-              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-white/30 text-[10px] font-mono uppercase tracking-[0.25em] cursor-not-allowed"
-            >
-              <ExternalLink className="w-3.5 h-3.5" /> {t("modal.moreDetails")}
-            </button>
-          </div>
+          {/* Dossiê estendido (Wikipédia, on-demand) */}
+          <ExtendedDetails key={selected.number} element={selected} />
         </motion.div>
       </motion.div>
     </AnimatePresence>
+  );
+}
+
+/* ─── Dossiê estendido via API ────────────────────────────────── */
+
+function ExtendedDetails({ element }: { element: ChemicalElement }) {
+  const { t } = useLocale();
+  const [show, setShow] = useState(false);
+  const { data, isLoading, isError, refetch } = useElementDetails(element, show);
+
+  if (!show) {
+    return (
+      <div className="flex justify-end p-4">
+        <button
+          onClick={() => setShow(true)}
+          className="flex items-center gap-2 px-4 py-2 rounded-full border border-(--cat-accent)/40 text-(--cat-accent) hover:bg-(--cat-accent)/10 text-[10px] font-mono uppercase tracking-[0.25em] transition-all hover:scale-[1.03]"
+        >
+          <ExternalLink className="w-3.5 h-3.5" /> {t("modal.moreDetails")}
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-5 sm:p-6 pt-0">
+      <HudPanel label={t("details.panel")}>
+        {isLoading && (
+          <TelemetrySpinner label={t("details.via").toUpperCase()} phases={[t("modal.loading")]} />
+        )}
+        {isError && (
+          <CommsFailure
+            message={t("modal.error")}
+            onRetry={() => refetch()}
+            retryLabel={t("common.retry")}
+          />
+        )}
+        {data && (
+          <div className="flex flex-col sm:flex-row gap-4">
+            {data.thumbnail && (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={data.thumbnail}
+                alt={data.title}
+                className="w-24 h-24 object-cover rounded-lg border border-white/10 shrink-0 self-start"
+              />
+            )}
+            <div className="flex flex-col gap-2">
+              <p className="text-sm text-(--foreground)/85 leading-relaxed">
+                {data.extract || t("details.empty")}
+              </p>
+              <div className="flex items-center gap-3">
+                {data.pageUrl && (
+                  <a
+                    href={data.pageUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-[0.2em] text-(--cat-accent) hover:underline"
+                  >
+                    <ExternalLink className="w-3 h-3" /> {t("details.readMore")}
+                  </a>
+                )}
+                <span className="text-[10px] font-mono text-(--muted-foreground)/60">
+                  {t("details.via")}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </HudPanel>
+    </div>
   );
 }
 
@@ -240,20 +253,14 @@ function CosmicOriginPanel({ element }: { element: ChemicalElement }) {
   if (!element.cosmicOrigin) {
     return (
       <HudPanel label={t("modal.cosmicOrigin")}>
-        <p className="text-sm text-[color:var(--muted-foreground)] italic">
-          {t("common.unknown")}
-        </p>
+        <p className="text-sm text-muted-foreground italic">{t("common.unknown")}</p>
       </HudPanel>
     );
   }
 
   const Icon = COSMIC_ICON[element.cosmicOrigin];
   const originLabel = t(`origin.${element.cosmicOrigin}` as DictKey);
-  const note = pickLocale(
-    element.cosmicOriginNote ?? "",
-    element.cosmicOriginNoteEn,
-    locale,
-  );
+  const note = pickLocale(element.cosmicOriginNote ?? "", element.cosmicOriginNoteEn, locale);
 
   return (
     <HudPanel label={t("modal.cosmicOrigin")}>
@@ -270,16 +277,11 @@ function CosmicOriginPanel({ element }: { element: ChemicalElement }) {
           <Icon className="w-6 h-6" />
         </div>
         <div className="flex flex-col gap-1.5 flex-1">
-          <span
-            className="font-mono text-[11px] tracking-[0.25em] uppercase"
-            style={{ color: accent }}
-          >
+          <span className="font-mono text-[11px] tracking-[0.25em] uppercase" style={{ color: accent }}>
             {originLabel}
           </span>
           {note && (
-            <p className="text-sm text-[color:var(--foreground)]/85 leading-relaxed">
-              {note}
-            </p>
+            <p className="text-sm text-(--foreground)/85 leading-relaxed">{note}</p>
           )}
         </div>
       </div>
@@ -294,19 +296,17 @@ interface AbundancePanelProps {
 
 function AbundancePanel({ abundance, t }: AbundancePanelProps) {
   const rows: { key: keyof AbundanceProfile; label: string; icon: LucideIcon }[] = [
-    { key: "universe",        label: t("modal.abundance.universe"),   icon: Sparkles },
-    { key: "earthCrust",      label: t("modal.abundance.crust"),      icon: Mountain },
+    { key: "universe", label: t("modal.abundance.universe"), icon: Sparkles },
+    { key: "earthCrust", label: t("modal.abundance.crust"), icon: Mountain },
     { key: "earthAtmosphere", label: t("modal.abundance.atmosphere"), icon: Wind },
-    { key: "earthOcean",      label: t("modal.abundance.ocean"),      icon: Droplet },
-    { key: "humanBody",       label: t("modal.abundance.body"),       icon: Heart },
+    { key: "earthOcean", label: t("modal.abundance.ocean"), icon: Droplet },
+    { key: "humanBody", label: t("modal.abundance.body"), icon: Heart },
   ];
 
   if (!abundance) {
     return (
       <HudPanel label={t("modal.abundance")}>
-        <p className="text-sm text-[color:var(--muted-foreground)] italic">
-          {t("common.unknown")}
-        </p>
+        <p className="text-sm text-muted-foreground italic">{t("common.unknown")}</p>
       </HudPanel>
     );
   }
@@ -320,24 +320,25 @@ function AbundancePanel({ abundance, t }: AbundancePanelProps) {
           return (
             <div key={key} className="flex items-center gap-3">
               <div className="flex items-center gap-1.5 w-28 shrink-0">
-                <Icon className="w-3 h-3 text-[color:var(--muted-foreground)]/60" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-[color:var(--muted-foreground)]">
+                <Icon className="w-3 h-3 text-(--muted-foreground)/60" />
+                <span className="font-mono text-[10px] uppercase tracking-[0.15em] ext-muted-foreground">
                   {label}
                 </span>
               </div>
-              <div className="flex-1 h-2 rounded-full overflow-hidden bg-white/[0.04]">
+              <div className="flex-1 h-2 rounded-full overflow-hidden bg-white/4">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${ratio * 100}%` }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   className="h-full rounded-full"
                   style={{
-                    background: `linear-gradient(90deg, var(--cat-accent) 0%, color-mix(in oklch, var(--cat-accent) 60%, transparent) 100%)`,
-                    boxShadow: ratio > 0 ? `0 0 8px var(--cat-accent)` : undefined,
+                    background:
+                      "linear-gradient(90deg, var(--cat-accent) 0%, color-mix(in oklch, var(--cat-accent) 60%, transparent) 100%)",
+                    boxShadow: ratio > 0 ? "0 0 8px var(--cat-accent)" : undefined,
                   }}
                 />
               </div>
-              <span className="font-mono text-[11px] tabular-nums text-[color:var(--foreground)]/80 w-20 text-right shrink-0">
+              <span className="font-mono text-[11px] tabular-nums text-(--foreground)/80 w-20 text-right shrink-0">
                 {formatPpm(value)}
               </span>
             </div>
@@ -355,18 +356,12 @@ interface BiologyPanelProps {
 }
 
 function BiologyPanel({ element, locale, t }: BiologyPanelProps) {
-  if (!element.biologicalRole && !element.naturalSources?.length) {
-    return null;
-  }
+  if (!element.biologicalRole && !element.naturalSources?.length) return null;
 
   const role = element.biologicalRole;
   const RoleIcon = role ? BIOLOGY_ICON[role] : null;
   const tint = role ? BIOLOGY_TINT[role] : "oklch(0.65 0.02 260)";
-  const note = pickLocale(
-    element.biologicalRoleNote ?? "",
-    element.biologicalRoleNoteEn,
-    locale,
-  );
+  const note = pickLocale(element.biologicalRoleNote ?? "", element.biologicalRoleNoteEn, locale);
   const sources = pickLocale(
     (element.naturalSources ?? []).join("|"),
     (element.naturalSourcesEn ?? []).join("|") || undefined,
@@ -398,9 +393,7 @@ function BiologyPanel({ element, locale, t }: BiologyPanelProps) {
                 {t(`bio.${role}` as DictKey)}
               </span>
               {note && (
-                <p className="text-sm text-[color:var(--foreground)]/80 leading-relaxed">
-                  {note}
-                </p>
+                <p className="text-sm text-(--foreground)/80 leading-relaxed">{note}</p>
               )}
             </div>
           </div>
@@ -408,14 +401,14 @@ function BiologyPanel({ element, locale, t }: BiologyPanelProps) {
 
         {sources.length > 0 && (
           <div className="flex flex-col gap-2">
-            <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-[color:var(--muted-foreground)]">
+            <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-(--muted-foreground)/60">
               {t("modal.naturalSources")}
             </span>
             <div className="flex flex-wrap gap-1.5">
               {sources.map((src) => (
                 <span
                   key={src}
-                  className="text-[11px] font-mono px-2 py-0.5 rounded-full border border-white/10 bg-white/[0.03] text-[color:var(--foreground)]/75"
+                  className="text-[11px] font-mono px-2 py-0.5 rounded-full border border-white/10 bg-white/3 text-(--foreground)/75"
                 >
                   {src}
                 </span>
@@ -430,11 +423,11 @@ function BiologyPanel({ element, locale, t }: BiologyPanelProps) {
 
 function TelemetryCell({ label, value }: { label: string; value: string }) {
   return (
-    <div className="p-3 bg-[color:var(--background)]/40 flex flex-col gap-0.5">
-      <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-[color:var(--muted-foreground)]/70">
+    <div className="p-3 g-(--background)/40 flex flex-col gap-0.5">
+      <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-(--muted-foreground)/70">
         {label}
       </span>
-      <span className="text-sm font-mono text-[color:var(--foreground)]/90 tabular-nums truncate">
+      <span className="text-sm font-mono text-(--foreground)/90 tabular-nums truncate">
         {value}
       </span>
     </div>

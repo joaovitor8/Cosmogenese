@@ -57,7 +57,7 @@ export function TelemetrySpinner({
 
       <div className="space-y-1.5">
         <div
-          className="text-[10px] font-mono tracking-[0.35em] text-[color:var(--muted-foreground)]"
+          className="text-[10px] font-mono tracking-[0.35em] text-muted-foreground"
           style={{ animation: "hud-pulse 2s ease-in-out infinite" }}
         >
           {label}

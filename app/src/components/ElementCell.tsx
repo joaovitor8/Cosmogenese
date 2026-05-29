@@ -1,33 +1,63 @@
-import { motion } from 'framer-motion';
-import { ChemicalElement, ElementCategory } from '@/src/data/elementsData';
-import { categoryMap } from '@/src/utils/tableConstants';
+"use client";
+
+import { motion } from "framer-motion";
+
+import {
+  type AbundanceProfile,
+  type ChemicalElement,
+} from "@/src/data/elementsData";
+import { categoryStyles } from "@/src/utils/tableConstants";
+import { COSMIC_ICON, COSMIC_TINT } from "@/src/utils/cosmicMeta";
+import { useLocale, type DictKey } from "@/src/lib/i18n";
 
 interface ElementCellProps {
   element: ChemicalElement;
-  activeFilter: ElementCategory | null;
+  dimmed: boolean;
   onClick: (el: ChemicalElement) => void;
 }
 
-export function ElementCell({ element, activeFilter, onClick }: ElementCellProps) {
+const RESERVOIR_KEY: Record<keyof AbundanceProfile, DictKey> = {
+  universe: "modal.abundance.universe",
+  earthCrust: "modal.abundance.crust",
+  earthAtmosphere: "modal.abundance.atmosphere",
+  earthOcean: "modal.abundance.ocean",
+  humanBody: "modal.abundance.body",
+};
+
+function dominantReservoir(ab?: AbundanceProfile): keyof AbundanceProfile | null {
+  if (!ab) return null;
+  let best: keyof AbundanceProfile | null = null;
+  let bestVal = -1;
+  (Object.keys(ab) as (keyof AbundanceProfile)[]).forEach((k) => {
+    const v = ab[k];
+    if (v != null && v > bestVal) {
+      bestVal = v;
+      best = k;
+    }
+  });
+  return best;
+}
+
+export function ElementCell({ element, dimmed, onClick }: ElementCellProps) {
+  const { t } = useLocale();
   const gridRow = element.row >= 8 ? element.row + 1 : element.row;
-  const isScannedOut = activeFilter !== null && activeFilter !== element.category;
-  const meta = categoryMap[element.category];
+
+  const OriginIcon = element.cosmicOrigin ? COSMIC_ICON[element.cosmicOrigin] : null;
+  const originTint = element.cosmicOrigin ? COSMIC_TINT[element.cosmicOrigin] : undefined;
+  const topReservoir = dominantReservoir(element.abundance);
 
   return (
     <motion.button
-      type="button"
       onClick={() => onClick(element)}
-      aria-label={`${element.name} (${element.symbol}), número atômico ${element.number}`}
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.2 }}
-      whileHover={{ scale: isScannedOut ? 1 : 1.1, zIndex: isScannedOut ? 1 : 50 }}
-      style={{ gridColumn: element.column, gridRow: gridRow }}
+      whileHover={{ scale: dimmed ? 1 : 1.1, zIndex: dimmed ? 1 : 50 }}
+      style={{ gridColumn: element.column, gridRow }}
       className={`
-        @container relative w-full h-full flex flex-col items-center justify-center
-        glass-cell transition-all duration-500 cursor-crosshair group
-        focus:outline-none focus-visible:ring-2 focus-visible:ring-toxic focus-visible:ring-offset-1 focus-visible:ring-offset-black
-        ${isScannedOut ? 'opacity-10 grayscale brightness-50 pointer-events-none' : meta.cellClass}
+        @container group relative w-full h-full flex flex-col items-center justify-center
+        glass-cell transition-all duration-500 cursor-crosshair rounded-sm
+        ${dimmed ? "opacity-10 grayscale brightness-50 pointer-events-none" : categoryStyles[element.category]}
       `}
     >
       <span className="absolute top-[5%] left-[8%] text-[15cqw] font-mono opacity-60 group-hover:opacity-100 transition-opacity">
@@ -38,6 +68,26 @@ export function ElementCell({ element, activeFilter, onClick }: ElementCellProps
       </strong>
       <span className="text-[12cqw] uppercase font-medium tracking-widest opacity-70 group-hover:opacity-100 truncate w-[90%] text-center mt-[2%]">
         {element.name}
+      </span>
+
+      {/* Hover preview — escondido em telas touch */}
+      <span
+        className="cell-tooltip pointer-events-none absolute bottom-[105%] left-1/2 -translate-x-1/2 z-50 w-max max-w-56 rounded-md border border-white/10 bg-[#06060c]/95 backdrop-blur-md px-2.5 py-1.5 opacity-0 [@media(hover:hover)]:group-hover:opacity-100 transition-opacity duration-200 flex flex-col gap-0.5 normal-case"
+      >
+        {element.cosmicOrigin && OriginIcon && (
+          <span
+            className="flex items-center gap-1.5 text-[11px] font-mono tracking-wide"
+            style={{ color: originTint }}
+          >
+            <OriginIcon className="w-3 h-3 shrink-0" />
+            {t(`origin.${element.cosmicOrigin}` as DictKey)}
+          </span>
+        )}
+        {topReservoir && (
+          <span className="text-[10px] font-mono text-white/55 tracking-wide">
+            {t("modal.abundance")}: {t(RESERVOIR_KEY[topReservoir])}
+          </span>
+        )}
       </span>
     </motion.button>
   );

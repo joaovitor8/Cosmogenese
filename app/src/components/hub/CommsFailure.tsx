@@ -36,9 +36,9 @@ export function CommsFailure({
         <div className="text-[10px] font-mono tracking-[0.35em] text-red-400 uppercase">
           Sinal Perdido — Code 503
         </div>
-        <p className="text-sm text-[color:var(--foreground)]/90">{message}</p>
+        <p className="text-sm text-(--foreground)/90">{message}</p>
         {detail && (
-          <p className="text-xs font-mono text-[color:var(--muted-foreground)]/80 pt-2">
+          <p className="text-xs font-mono text-(--muted-foreground)/80 pt-2">
             {detail}
           </p>
         )}
