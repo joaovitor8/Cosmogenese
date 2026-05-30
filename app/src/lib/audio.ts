@@ -11,6 +11,8 @@
 
 import type { CosmicOrigin } from "@/src/data/elementsData";
 
+const MASTER_GAIN = 0.6;
+
 let ctxSingleton: AudioContext | null = null;
 let masterGain: GainNode | null = null;
 
@@ -21,7 +23,7 @@ function getCtx(): AudioContext | null {
   if (!Ctor) return null;
   ctxSingleton = new Ctor();
   masterGain = ctxSingleton.createGain();
-  masterGain.gain.value = 0.6;
+  masterGain.gain.value = MASTER_GAIN;
   masterGain.connect(ctxSingleton.destination);
   return ctxSingleton;
 }
@@ -125,16 +127,6 @@ export async function playZTone(
 
 /* ─── Pads ambientes por origem cósmica ───────────────────────── */
 
-function getNoiseBuffer(ctx: AudioContext): AudioBuffer {
-  if (noiseBuffer && noiseBuffer.sampleRate === ctx.sampleRate) return noiseBuffer;
-  const len = ctx.sampleRate * 2;
-  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-  const data = buf.getChannelData(0);
-  for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * 0.6;
-  noiseBuffer = buf;
-  return buf;
-}
-
 interface PadRecipe {
   baseFreq: number;
   detune: number;     // cents
@@ -159,7 +151,7 @@ const PAD: Record<CosmicOrigin, PadRecipe> = {
 };
 
 let noiseBuffer: AudioBuffer | null = null;
-function getNoiseBuffer(ctx: AudioCtx): AudioBuffer {
+function getNoiseBuffer(ctx: AudioContext): AudioBuffer {
   if (noiseBuffer && noiseBuffer.sampleRate === ctx.sampleRate) return noiseBuffer;
   const len = ctx.sampleRate * 2;
   const buf = ctx.createBuffer(1, len, ctx.sampleRate);
@@ -237,6 +229,15 @@ export async function originPad(origin: CosmicOrigin): Promise<PadHandle | null>
   if (lfo) lfo.start(now);
 
   let stopped = false;
+
+  // Libera o grafo quando osc1 termina (osc1 é o ouvinte canônico — todos os
+  // sources param juntos no mesmo stopAt).
+  osc1.onended = () => {
+    for (const node of [osc1, osc2, noiseSrc, lfo, lfoGain, oscGain, filter, out]) {
+      try { node?.disconnect(); } catch {}
+    }
+  };
+
   return {
     stop(fadeMs = 600) {
       if (stopped || !ctx) return;
@@ -247,10 +248,9 @@ export async function originPad(origin: CosmicOrigin): Promise<PadHandle | null>
       out.gain.setValueAtTime(out.gain.value, t);
       out.gain.linearRampToValueAtTime(0, t + fade);
       const stopAt = t + fade + 0.05;
-      try { osc1.stop(stopAt); } catch {}
-      try { osc2.stop(stopAt); } catch {}
-      try { noiseSrc?.stop(stopAt); } catch {}
-      try { lfo?.stop(stopAt); } catch {}
+      for (const node of [osc1, osc2, noiseSrc, lfo]) {
+        try { node?.stop(stopAt); } catch {}
+      }
     },
   };
 }
@@ -271,5 +271,5 @@ export function unmuteAll(): void {
   const t = ctx.currentTime;
   masterGain.gain.cancelScheduledValues(t);
   masterGain.gain.setValueAtTime(masterGain.gain.value, t);
-  masterGain.gain.linearRampToValueAtTime(0.6, t + 0.2);
+  masterGain.gain.linearRampToValueAtTime(MASTER_GAIN, t + 0.2);
 }

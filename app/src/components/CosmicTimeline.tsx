@@ -16,6 +16,7 @@ import {
 import { pickLocale, useLocale, type DictKey } from "@/src/lib/i18n";
 import { originPad, type PadHandle } from "@/src/lib/audio";
 import { useSoundEnabled } from "@/src/hooks/useSoundEnabled";
+import { withAlpha } from "@/src/lib/utils";
 
 interface CosmicTimelineProps {
   open: boolean;
@@ -39,7 +40,6 @@ export function CosmicTimeline({ open, onClose, onSelect }: CosmicTimelineProps)
     [],
   );
 
-  // step = -1: estado inicial "tudo apagado"; quando playing, avança até stops.length-1
   const [step, setStep] = useState(stops.length - 1);
   const [playing, setPlaying] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -164,7 +164,7 @@ export function CosmicTimeline({ open, onClose, onSelect }: CosmicTimelineProps)
             {/* Header */}
             <div className="flex items-start justify-between p-6 border-b border-white/6 gap-4">
               <div className="flex flex-col gap-1 flex-1">
-                <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-[color:var(--primary)]">
+                <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-primary">
                   T = {formatCosmicAge(currentYear, locale)}
                 </span>
                 <h2 className="font-serif text-2xl sm:text-3xl tracking-widest uppercase">
@@ -182,7 +182,7 @@ export function CosmicTimeline({ open, onClose, onSelect }: CosmicTimelineProps)
                     onClick={playing ? onPause : isAtEnd ? onStartFromZero : onPlay}
                     title={playing ? t("timeline.pause") : t("timeline.play")}
                     aria-label={playing ? t("timeline.pause") : t("timeline.play")}
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-[color:var(--primary)] hover:bg-[color:var(--primary)]/15 transition-colors"
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-primary hover:bg-(--primary)/15 transition-colors"
                   >
                     {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                   </button>
@@ -232,9 +232,11 @@ export function CosmicTimeline({ open, onClose, onSelect }: CosmicTimelineProps)
                       }`}
                       style={{
                         color: tint,
-                        borderColor: tint + (isPast ? "88" : "30"),
+                        borderColor: withAlpha(tint, isPast ? 53 : 19),
                         background: `color-mix(in oklch, ${tint} ${isPast ? 18 : 6}%, var(--background))`,
-                        boxShadow: isCurrent ? `0 0 28px ${tint}99` : `0 0 12px ${tint}33`,
+                        boxShadow: isCurrent
+                          ? `0 0 28px ${withAlpha(tint, 60)}`
+                          : `0 0 12px ${withAlpha(tint, 20)}`,
                       }}
                     >
                       <Icon className="w-5 h-5" />
@@ -274,7 +276,7 @@ export function CosmicTimeline({ open, onClose, onSelect }: CosmicTimelineProps)
                             className="w-9 h-9 rounded-md border text-sm font-bold font-mono transition-all hover:scale-110 hover:z-10"
                             style={{
                               color: tint,
-                              borderColor: tint + "33",
+                              borderColor: withAlpha(tint, 20),
                               background: `color-mix(in oklch, ${tint} 7%, transparent)`,
                             }}
                           >
@@ -310,7 +312,7 @@ function CosmicProgressBar({ currentYear }: CosmicProgressBarProps) {
       <motion.div
         animate={{ width: `${ratio * 100}%` }}
         transition={{ duration: 0.55, ease: "easeOut" }}
-        className="h-full rounded-full bg-linear-to-r from-[color:var(--primary)] to-[color:var(--primary)]/40"
+        className="h-full rounded-full bg-linear-to-r from-primary to-(--primary)/40"
         style={{ boxShadow: "0 0 12px oklch(0.60 0.18 290 / 0.55)" }}
       />
     </div>

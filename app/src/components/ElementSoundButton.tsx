@@ -7,6 +7,7 @@ import type { ChemicalElement } from "@/src/data/elementsData";
 import { playSpectralLines, playZTone } from "@/src/lib/audio";
 import { useSoundEnabled } from "@/src/hooks/useSoundEnabled";
 import { useT } from "@/src/lib/i18n";
+import { withAlpha } from "@/src/lib/utils";
 
 interface ElementSoundButtonProps {
   element: ChemicalElement;
@@ -52,9 +53,9 @@ export function ElementSoundButton({ element, accent }: ElementSoundButtonProps)
       }`}
       style={{
         color: accent,
-        borderColor: accent + (enabled ? "70" : "30"),
+        borderColor: withAlpha(accent, enabled ? 44 : 19),
         background: `color-mix(in oklch, ${accent} ${enabled ? 12 : 6}%, transparent)`,
-        boxShadow: pulsing ? `0 0 22px ${accent}88` : undefined,
+        boxShadow: pulsing ? `0 0 22px ${withAlpha(accent, 53)}` : undefined,
       }}
     >
       <Icon className={`w-3.5 h-3.5 ${pulsing ? "animate-hud-pulse" : ""}`} />

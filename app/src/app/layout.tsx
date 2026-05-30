@@ -4,7 +4,6 @@ import "./globals.css";
 
 import Stars from "@/src/components/Stars";
 import { Providers } from "@/src/components/Providers";
-import { Header } from "@/src/components/Header";
 import { Footer } from "@/src/components/Footer";
 
 const inter = Inter({
@@ -24,12 +23,12 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Forja Estelar | Tabela Periódica Cósmica",
-    template: "%s · Forja Estelar",
+    default: "Cosmogênese | Tabela Periódica Cósmica",
+    template: "%s · Cosmogênese",
   },
   description:
     "Tabela periódica reescrita como arqueologia do cosmos — de onde vem cada átomo do seu corpo. Uma extensão de Universe.",
-  applicationName: "Forja Estelar",
+  applicationName: "Cosmogênese",
   authors: [{ name: "João Vitor" }],
   keywords: [
     "tabela periódica", "elementos químicos", "origem cósmica",
@@ -39,8 +38,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    siteName: "Forja Estelar",
-    title: "Forja Estelar · Tabela Periódica Cósmica",
+    siteName: "Cosmogênese",
+    title: "Cosmogênese · Tabela Periódica Cósmica",
     description:
       "De onde vem cada átomo? Big Bang, fusão estelar, supernovas, fusão de estrelas de nêutrons — a arqueologia cósmica dos 118 elementos.",
   },
@@ -64,8 +63,7 @@ export default function RootLayout({
         <Providers>
           <div aria-hidden className="fixed inset-0 -z-10 bg-grid pointer-events-none opacity-60" />
           <Stars className="fixed inset-0 -z-10" quantity={150} />
-          <Header />
-          <main className="grow pt-16">{children}</main>
+          <main className="grow">{children}</main>
           <Footer />
         </Providers>
       </body>

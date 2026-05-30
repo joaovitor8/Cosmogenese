@@ -15,7 +15,7 @@ export function LocaleToggle() {
             onClick={() => setLocale(l.id)}
             className={`px-2.5 py-1 text-[10px] font-mono tracking-[0.2em] rounded-full transition-all ${
               active
-                ? "bg-[color:var(--primary)]/20 text-[color:var(--primary)] shadow-[0_0_12px_oklch(0.60_0.18_290_/_0.25)]"
+                ? "bg-(--primary)/20 text-primary shadow-[0_0_12px_oklch(0.60_0.18_290/0.25)]"
                 : "text-white/50 hover:text-white"
             }`}
             aria-pressed={active}

@@ -2,16 +2,25 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Droplet, ExternalLink, Heart, Mountain, Pin, PinOff, Sparkles, Wind, X, type LucideIcon } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Pin,
+  PinOff,
+  X,
+} from "lucide-react";
 
 import { type AbundanceProfile, type ChemicalElement, elementByZ } from "@/src/data/elementsData";
 
-import { categoryAccent } from "@/src/utils/tableConstants";
+import { categoryAccent, type CatAccentStyle } from "@/src/utils/tableConstants";
 import { COSMIC_ICON } from "@/src/utils/cosmicMeta";
 import { BIOLOGY_ICON, BIOLOGY_TINT } from "@/src/utils/bioMeta";
 import { pickLocale, useLocale, type DictKey } from "@/src/lib/i18n";
 import { useElementDetails } from "@/src/hooks/useElementDetails";
 import { usePinned } from "@/src/hooks/usePinned";
+import { ABUNDANCE_ROWS_META, formatPpm, logRatio } from "@/src/utils/abundance";
+import { withAlpha } from "@/src/lib/utils";
 
 import { HudPanel } from "./hub/HudPanel";
 import { TelemetrySpinner } from "./hub/TelemetrySpinner";
@@ -26,40 +35,22 @@ interface ElementModalProps {
   onNavigate?: (delta: number) => void;
 }
 
-/** Normaliza ppm para 0..1 numa escala logarítmica. Total = 10^6 ppm = 100%. */
-function logRatio(ppm: number | null | undefined): number {
-  if (ppm == null || ppm <= 0) return 0;
-  const r = Math.log10(ppm + 1) / 6.5;
-  return Math.max(0, Math.min(1, r));
-}
-
-/** Formata ppm para texto curto e legível. */
-function formatPpm(ppm: number | null | undefined): string {
-  if (ppm == null) return "—";
-  if (ppm === 0) return "0";
-  const pct = ppm / 10000; // ppm → %
-  if (pct >= 1) return `${pct.toFixed(0)}%`;
-  if (pct >= 0.01) return `${pct.toFixed(2)}%`;
-  if (ppm >= 1) return `${ppm.toFixed(0)} ppm`;
-  if (ppm >= 0.001) return `${ppm.toFixed(3)} ppm`;
-  return `${ppm.toExponential(1)} ppm`;
-}
-
 export function ElementModal({ selected, onClose, onNavigate }: ElementModalProps) {
   const { t, locale } = useLocale();
   const { isPinned, isFull, toggle } = usePinned();
 
   useEffect(() => {
     if (!selected || !onNavigate) return;
+    const nav = onNavigate;
     function onKey(e: KeyboardEvent) {
       const tag = (e.target as HTMLElement | null)?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
       if (e.key === "ArrowRight") {
         e.preventDefault();
-        onNavigate?.(1);
+        nav(1);
       } else if (e.key === "ArrowLeft") {
         e.preventDefault();
-        onNavigate?.(-1);
+        nav(-1);
       }
     }
     window.addEventListener("keydown", onKey);
@@ -87,7 +78,7 @@ export function ElementModal({ selected, onClose, onNavigate }: ElementModalProp
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto"
         onClick={onClose}
-        style={{ "--cat-accent": accent } as React.CSSProperties}
+        style={{ "--cat-accent": accent } as CatAccentStyle}
       >
         <motion.div
           initial={{ scale: 0.92, y: 20 }}
@@ -133,7 +124,7 @@ export function ElementModal({ selected, onClose, onNavigate }: ElementModalProp
                 className="font-mono text-[10px] tracking-[0.2em] uppercase mt-1 inline-block px-2 py-0.5 rounded-sm border w-fit"
                 style={{
                   color: accent,
-                  borderColor: accent + "55",
+                  borderColor: withAlpha(accent, 33),
                   background: `color-mix(in oklch, ${accent} 10%, transparent)`,
                 }}
               >
@@ -154,7 +145,6 @@ export function ElementModal({ selected, onClose, onNavigate }: ElementModalProp
                     ? "text-(--cat-accent) bg-(--cat-accent)/15"
                     : "text-white/50 hover:text-white hover:bg-white/8"
                 }`}
-                style={pinned ? { color: accent, background: `color-mix(in oklch, ${accent} 15%, transparent)` } : undefined}
               >
                 <PinIcon className="w-4 h-4" />
               </button>
@@ -192,8 +182,8 @@ export function ElementModal({ selected, onClose, onNavigate }: ElementModalProp
                 <div
                   className="relative z-10 flex flex-col items-center justify-center w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-black/50 backdrop-blur-md border"
                   style={{
-                    borderColor: accent + "40",
-                    boxShadow: `0 0 30px ${accent}33 inset`,
+                    borderColor: withAlpha(accent, 25),
+                    boxShadow: `0 0 30px ${withAlpha(accent, 20)} inset`,
                   }}
                 >
                   <span className="font-mono text-xs opacity-70 -mb-1">{selected.number}</span>
@@ -271,7 +261,8 @@ function ExtendedDetails({ element }: { element: ChemicalElement }) {
         )}
         {isError && (
           <CommsFailure
-            message={t("modal.error")}
+            code={`${t("modal.error")} — Code 503`}
+            message={t("details.empty")}
             onRetry={() => refetch()}
             retryLabel={t("common.retry")}
           />
@@ -301,7 +292,7 @@ function ExtendedDetails({ element }: { element: ChemicalElement }) {
                     <ExternalLink className="w-3 h-3" /> {t("details.readMore")}
                   </a>
                 )}
-                <span className="text-[10px] font-mono text-(--muted-foreground)/60">
+                <span className="text-[10px] font-mono text-muted-foreground/60">
                   {t("details.via")}
                 </span>
               </div>
@@ -338,9 +329,9 @@ function CosmicOriginPanel({ element }: { element: ChemicalElement }) {
           className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0 border"
           style={{
             color: accent,
-            borderColor: accent + "40",
+            borderColor: withAlpha(accent, 25),
             background: `color-mix(in oklch, ${accent} 8%, transparent)`,
-            boxShadow: `0 0 18px ${accent}33`,
+            boxShadow: `0 0 18px ${withAlpha(accent, 20)}`,
           }}
         >
           <Icon className="w-6 h-6" />
@@ -364,14 +355,6 @@ interface AbundancePanelProps {
 }
 
 function AbundancePanel({ abundance, t }: AbundancePanelProps) {
-  const rows: { key: keyof AbundanceProfile; label: string; icon: LucideIcon }[] = [
-    { key: "universe", label: t("modal.abundance.universe"), icon: Sparkles },
-    { key: "earthCrust", label: t("modal.abundance.crust"), icon: Mountain },
-    { key: "earthAtmosphere", label: t("modal.abundance.atmosphere"), icon: Wind },
-    { key: "earthOcean", label: t("modal.abundance.ocean"), icon: Droplet },
-    { key: "humanBody", label: t("modal.abundance.body"), icon: Heart },
-  ];
-
   if (!abundance) {
     return (
       <HudPanel label={t("modal.abundance")}>
@@ -383,15 +366,15 @@ function AbundancePanel({ abundance, t }: AbundancePanelProps) {
   return (
     <HudPanel label={t("modal.abundance")}>
       <div className="flex flex-col gap-2">
-        {rows.map(({ key, label, icon: Icon }) => {
+        {ABUNDANCE_ROWS_META.map(({ key, labelKey, icon: Icon }) => {
           const value = abundance[key];
           const ratio = logRatio(value);
           return (
             <div key={key} className="flex items-center gap-3">
               <div className="flex items-center gap-1.5 w-28 shrink-0">
-                <Icon className="w-3 h-3 text-(--muted-foreground)/60" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.15em] ext-muted-foreground">
-                  {label}
+                <Icon className="w-3 h-3 text-muted-foreground/60" />
+                <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                  {t(labelKey)}
                 </span>
               </div>
               <div className="flex-1 h-2 rounded-full overflow-hidden bg-white/4">
@@ -501,7 +484,7 @@ function BiologyPanel({ element, locale, t }: BiologyPanelProps) {
               className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 border"
               style={{
                 color: tint,
-                borderColor: tint + "40",
+                borderColor: withAlpha(tint, 25),
                 background: `color-mix(in oklch, ${tint} 8%, transparent)`,
               }}
             >
@@ -523,7 +506,7 @@ function BiologyPanel({ element, locale, t }: BiologyPanelProps) {
 
         {sources.length > 0 && (
           <div className="flex flex-col gap-2">
-            <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-(--muted-foreground)/60">
+            <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground/60">
               {t("modal.naturalSources")}
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -545,7 +528,7 @@ function BiologyPanel({ element, locale, t }: BiologyPanelProps) {
 
 function TelemetryCell({ label, value }: { label: string; value: string }) {
   return (
-    <div className="p-3 g-(--background)/40 flex flex-col gap-0.5">
+    <div className="p-3 bg-(--background)/40 flex flex-col gap-0.5">
       <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-(--muted-foreground)/70">
         {label}
       </span>

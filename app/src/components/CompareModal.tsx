@@ -1,43 +1,20 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Droplet, Heart, Mountain, Sparkles, Wind, X, type LucideIcon } from "lucide-react";
+import { X } from "lucide-react";
 
-import { type AbundanceProfile, type ChemicalElement } from "@/src/data/elementsData";
-import { categoryAccent } from "@/src/utils/tableConstants";
+import { type ChemicalElement } from "@/src/data/elementsData";
+import { categoryAccent, type CatAccentStyle } from "@/src/utils/tableConstants";
+import { withAlpha } from "@/src/lib/utils";
 import { COSMIC_ICON, COSMIC_TINT } from "@/src/utils/cosmicMeta";
 import { BIOLOGY_ICON, BIOLOGY_TINT } from "@/src/utils/bioMeta";
 import { pickLocale, useLocale, type DictKey } from "@/src/lib/i18n";
 import { usePinned } from "@/src/hooks/usePinned";
+import { ABUNDANCE_ROWS_META, formatPpm, logRatio } from "@/src/utils/abundance";
 
 interface CompareModalProps {
   open: boolean;
   onClose: () => void;
-}
-
-const ABUNDANCE_ROWS: { key: keyof AbundanceProfile; labelKey: DictKey; icon: LucideIcon }[] = [
-  { key: "universe", labelKey: "modal.abundance.universe", icon: Sparkles },
-  { key: "earthCrust", labelKey: "modal.abundance.crust", icon: Mountain },
-  { key: "earthAtmosphere", labelKey: "modal.abundance.atmosphere", icon: Wind },
-  { key: "earthOcean", labelKey: "modal.abundance.ocean", icon: Droplet },
-  { key: "humanBody", labelKey: "modal.abundance.body", icon: Heart },
-];
-
-function logRatio(ppm: number | null | undefined): number {
-  if (ppm == null || ppm <= 0) return 0;
-  const r = Math.log10(ppm + 1) / 6.5;
-  return Math.max(0, Math.min(1, r));
-}
-
-function formatPpm(ppm: number | null | undefined): string {
-  if (ppm == null) return "—";
-  if (ppm === 0) return "0";
-  const pct = ppm / 10000;
-  if (pct >= 1) return `${pct.toFixed(0)}%`;
-  if (pct >= 0.01) return `${pct.toFixed(2)}%`;
-  if (ppm >= 1) return `${ppm.toFixed(0)} ppm`;
-  if (ppm >= 0.001) return `${ppm.toFixed(3)} ppm`;
-  return `${ppm.toExponential(1)} ppm`;
 }
 
 export function CompareModal({ open, onClose }: CompareModalProps) {
@@ -64,7 +41,7 @@ export function CompareModal({ open, onClose }: CompareModalProps) {
           >
             <div className="flex items-start justify-between p-5 sm:p-6 border-b border-white/6">
               <div className="flex flex-col gap-1">
-                <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-[color:var(--primary)]">
+                <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-primary">
                   {t("compare.codename")}
                 </span>
                 <h2 className="font-serif text-2xl sm:text-3xl tracking-widest uppercase">
@@ -122,7 +99,7 @@ function CompareColumn({ el, onRemove, locale, t }: ColumnProps) {
   return (
     <div
       className="bg-(--background)/60 p-4 flex flex-col gap-4"
-      style={{ "--cat-accent": accent } as React.CSSProperties}
+      style={{ "--cat-accent": accent } as CatAccentStyle}
     >
       {/* Header da coluna */}
       <div className="flex items-start justify-between gap-2">
@@ -131,7 +108,7 @@ function CompareColumn({ el, onRemove, locale, t }: ColumnProps) {
             className="w-12 h-12 rounded-md border flex flex-col items-center justify-center shrink-0"
             style={{
               color: accent,
-              borderColor: accent + "55",
+              borderColor: withAlpha(accent, 33),
               background: `color-mix(in oklch, ${accent} 10%, transparent)`,
             }}
           >
@@ -183,7 +160,7 @@ function CompareColumn({ el, onRemove, locale, t }: ColumnProps) {
           {t("modal.abundance")}
         </span>
         <div className="flex flex-col gap-1.5">
-          {ABUNDANCE_ROWS.map(({ key, labelKey, icon: Icon }) => {
+          {ABUNDANCE_ROWS_META.map(({ key, labelKey, icon: Icon }) => {
             const value = el.abundance?.[key];
             const ratio = logRatio(value);
             return (

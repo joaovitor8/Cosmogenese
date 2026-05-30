@@ -1,12 +1,13 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "framer-motion";
 
 import {
   type AbundanceProfile,
   type ChemicalElement,
 } from "@/src/data/elementsData";
-import { categoryStyles } from "@/src/utils/tableConstants";
+import { categoryStyles, type CatAccentStyle } from "@/src/utils/tableConstants";
 import { COSMIC_ICON, COSMIC_TINT } from "@/src/utils/cosmicMeta";
 import { useLocale, type DictKey } from "@/src/lib/i18n";
 
@@ -26,21 +27,29 @@ const RESERVOIR_KEY: Record<keyof AbundanceProfile, DictKey> = {
   humanBody: "modal.abundance.body",
 };
 
+const RESERVOIR_KEYS = [
+  "universe",
+  "earthCrust",
+  "earthAtmosphere",
+  "earthOcean",
+  "humanBody",
+] as const satisfies readonly (keyof AbundanceProfile)[];
+
 function dominantReservoir(ab?: AbundanceProfile): keyof AbundanceProfile | null {
   if (!ab) return null;
   let best: keyof AbundanceProfile | null = null;
   let bestVal = -1;
-  (Object.keys(ab) as (keyof AbundanceProfile)[]).forEach((k) => {
-    const v = ab[k];
+  for (const key of RESERVOIR_KEYS) {
+    const v = ab[key];
     if (v != null && v > bestVal) {
       bestVal = v;
-      best = k;
+      best = key;
     }
-  });
+  }
   return best;
 }
 
-export function ElementCell({
+function ElementCellInner({
   element,
   dimmed,
   onClick,
@@ -54,11 +63,11 @@ export function ElementCell({
   const originTint = element.cosmicOrigin ? COSMIC_TINT[element.cosmicOrigin] : undefined;
   const topReservoir = dominantReservoir(element.abundance);
 
-  const overrideStyle: React.CSSProperties | undefined = tintOverride
+  const overrideStyle: CatAccentStyle = tintOverride
     ? {
         gridColumn: element.column,
         gridRow,
-        ["--cat-accent" as string]: tintOverride,
+        "--cat-accent": tintOverride,
         color: tintOverride,
         borderColor: `color-mix(in oklch, ${tintOverride} 45%, transparent)`,
         background: `color-mix(in oklch, ${tintOverride} 8%, oklch(0.15 0.04 260 / 0.55))`,
@@ -69,7 +78,7 @@ export function ElementCell({
         gridRow,
         ...(pulse
           ? {
-              ["--cat-accent" as string]:
+              "--cat-accent":
                 element.cosmicOrigin && originTint ? originTint : "var(--primary)",
             }
           : {}),
@@ -123,3 +132,5 @@ export function ElementCell({
     </motion.button>
   );
 }
+
+export const ElementCell = memo(ElementCellInner);

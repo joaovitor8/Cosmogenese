@@ -12,6 +12,7 @@ import { useIsMac } from "@/src/hooks/useIsMac";
 import { elementOfDay } from "@/src/utils/elementOfDay";
 import { COSMIC_TINT } from "@/src/utils/cosmicMeta";
 import { categoryAccent } from "@/src/utils/tableConstants";
+import { withAlpha } from "@/src/lib/utils";
 
 import { ElementCell } from "./ElementCell";
 import { ElementModal } from "./ElementModal";
@@ -45,7 +46,6 @@ export default function PeriodicTable() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  // Atalho ⌘K / Ctrl+K
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       const isPaletteShortcut = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k";
@@ -116,7 +116,7 @@ export default function PeriodicTable() {
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col"
         >
-          <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-[color:var(--primary)] opacity-70">
+          <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-primary opacity-70">
             {t("table.range")}
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl tracking-[0.15em] uppercase">
@@ -128,7 +128,7 @@ export default function PeriodicTable() {
               className="mt-1.5 inline-flex items-center gap-2 self-start px-2 py-0.5 rounded-full border text-[10px] font-mono uppercase tracking-[0.2em] hover:scale-[1.03] transition-transform"
               style={{
                 color: eodAccent,
-                borderColor: (eodAccent ?? "var(--primary)") + "55",
+                borderColor: withAlpha(eodAccent ?? "var(--primary)", 33),
                 background: `color-mix(in oklch, ${eodAccent ?? "var(--primary)"} 10%, transparent)`,
               }}
               title={eodName}
@@ -145,7 +145,7 @@ export default function PeriodicTable() {
 
           <button
             onClick={() => setPaletteOpen(true)}
-            className="flex items-center gap-2 px-3 sm:px-4 py-2 font-mono text-xs uppercase rounded-full border border-white/15 text-white/60 hover:border-[color:var(--primary)]/60 hover:text-[color:var(--primary)] bg-black/30 transition-all"
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 font-mono text-xs uppercase rounded-full border border-white/15 text-white/60 hover:border-(--primary)/60 hover:text-primary bg-black/30 transition-all"
             title={`${t("palette.openHint")} (${shortcutLabel})`}
           >
             <Search className="w-4 h-4" />
@@ -159,8 +159,8 @@ export default function PeriodicTable() {
             onClick={openStardustIntro}
             className={`flex items-center gap-2 px-3 sm:px-4 py-2 font-mono text-xs uppercase rounded-full border transition-all ${
               stardustActive
-                ? "border-[color:var(--primary)] text-[color:var(--primary)] bg-[color:var(--primary)]/10"
-                : "border-white/15 text-white/60 hover:border-[color:var(--primary)]/60 hover:text-[color:var(--primary)] bg-black/30"
+                ? "border-primary text-primary bg-(--primary)/10"
+                : "border-white/15 text-white/60 hover:border-(--primary)/60 hover:text-primary bg-black/30"
             }`}
             title={t("stardust.button")}
           >
@@ -170,7 +170,7 @@ export default function PeriodicTable() {
 
           <button
             onClick={() => setShowTimeline(true)}
-            className="flex items-center gap-2 px-3 sm:px-4 py-2 font-mono text-xs uppercase rounded-full border border-white/15 text-white/60 hover:border-[color:var(--primary)]/60 hover:text-[color:var(--primary)] bg-black/30 transition-all"
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 font-mono text-xs uppercase rounded-full border border-white/15 text-white/60 hover:border-(--primary)/60 hover:text-primary bg-black/30 transition-all"
           >
             <Sparkles className="w-4 h-4" />
             <span className="hidden sm:inline">{t("timeline.open")}</span>
@@ -183,7 +183,7 @@ export default function PeriodicTable() {
               stardustActive
                 ? "opacity-40 cursor-not-allowed border-white/10 text-white/30"
                 : showFilters || filter.isActive
-                ? "border-[color:var(--primary)] text-[color:var(--primary)] bg-[color:var(--primary)]/10 shadow-[0_0_18px_oklch(0.60_0.18_290_/_0.30)]"
+                ? "border-primary text-primary bg-(--primary)/10 shadow-[0_0_18px_oklch(0.60_0.18_290/0.30)]"
                 : "border-white/15 text-white/60 hover:border-white/40 hover:text-white bg-black/30"
             }`}
           >

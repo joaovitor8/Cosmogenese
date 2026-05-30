@@ -11,7 +11,6 @@ export function FlamePreview({ color, size = 96 }: FlamePreviewProps) {
       className="relative shrink-0 overflow-hidden rounded-md border border-white/10 bg-black"
       style={{ width: size, height: size }}
     >
-      {/* base hot core */}
       <div
         className="absolute inset-x-0 bottom-0 flame-core"
         style={{
@@ -21,7 +20,6 @@ export function FlamePreview({ color, size = 96 }: FlamePreviewProps) {
           mixBlendMode: "screen",
         }}
       />
-      {/* inner brighter tongue */}
       <div
         className="absolute left-1/2 bottom-0 -translate-x-1/2 flame-tongue"
         style={{
@@ -32,7 +30,6 @@ export function FlamePreview({ color, size = 96 }: FlamePreviewProps) {
           mixBlendMode: "screen",
         }}
       />
-      {/* embers */}
       <div
         className="absolute inset-x-0 bottom-0 h-3"
         style={{

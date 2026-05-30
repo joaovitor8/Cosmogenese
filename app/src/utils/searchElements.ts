@@ -6,12 +6,15 @@ interface ScoredElement {
   score: number;
 }
 
+// U+0300–U+036F = Combining Diacritical Marks. Construído via charCode pra
+// não depender de bytes literais combinantes no source (que confundem editores).
+const COMBINING_MARKS = new RegExp(
+  `[${String.fromCharCode(0x0300)}-${String.fromCharCode(0x036f)}]`,
+  "g",
+);
+
 function norm(s: string): string {
-  return s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .trim();
+  return s.toLowerCase().normalize("NFD").replace(COMBINING_MARKS, "").trim();
 }
 
 interface SearchContext {

@@ -69,7 +69,7 @@ export function CommandPalette({ open, onClose, onSelect }: CommandPaletteProps)
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[60] flex items-start justify-center bg-black/70 backdrop-blur-md p-4 pt-[18vh]"
+          className="fixed inset-0 z-60 flex items-start justify-center bg-black/70 backdrop-blur-md p-4 pt-[18vh]"
           onClick={onClose}
         >
           <motion.div
@@ -77,23 +77,23 @@ export function CommandPalette({ open, onClose, onSelect }: CommandPaletteProps)
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.96, y: -8 }}
             transition={{ type: "spring", stiffness: 380, damping: 32 }}
-            className="relative w-full max-w-xl rounded-2xl border border-[color:var(--primary)]/25 bg-[color:var(--background)]/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
+            className="relative w-full max-w-xl rounded-2xl border border-(--primary)/25 bg-(--background)/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <span className="absolute top-2 left-2 w-3 h-3 border-t border-l border-[color:var(--primary)]/60" />
-            <span className="absolute top-2 right-2 w-3 h-3 border-t border-r border-[color:var(--primary)]/60" />
-            <span className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-[color:var(--primary)]/60" />
-            <span className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-[color:var(--primary)]/60" />
+            <span className="absolute top-2 left-2 w-3 h-3 border-t border-l order-(--primary)/60" />
+            <span className="absolute top-2 right-2 w-3 h-3 border-t border-r order-(--primary)/60" />
+            <span className="absolute bottom-2 left-2 w-3 h-3 border-b border-l order-(--primary)/60" />
+            <span className="absolute bottom-2 right-2 w-3 h-3 border-b border-r order-(--primary)/60" />
 
             <div className="flex items-center gap-3 px-4 py-3 border-b border-white/10">
-              <Search className="w-4 h-4 text-[color:var(--primary)] shrink-0" />
+              <Search className="w-4 h-4 text-primary shrink-0" />
               <input
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={onKeyDown}
                 placeholder={t("palette.placeholder")}
-                className="flex-1 bg-transparent outline-hidden text-sm font-mono text-(--foreground) placeholder:text-white/30"
+                className="flex-1 bg-transparent outline-hidden text-sm font-mono text-foreground placeholder:text-white/30"
               />
               <button
                 onClick={onClose}

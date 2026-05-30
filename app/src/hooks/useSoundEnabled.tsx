@@ -22,8 +22,18 @@ interface SoundContextValue {
 
 const SoundContext = createContext<SoundContextValue | null>(null);
 
+function applySoundState(v: boolean) {
+  try {
+    window.localStorage.setItem(STORAGE_KEY, v ? "on" : "off");
+  } catch {
+    /* fail-silent */
+  }
+  if (v) unmuteAll();
+  else muteAll();
+}
+
 export function SoundProvider({ children }: { children: ReactNode }) {
-  // Default OFF — autoplay nunca, usuário escolhe
+  // Default OFF — autoplay nunca, usuário escolhe.
   const [enabled, setEnabledState] = useState(false);
 
   useEffect(() => {
@@ -40,16 +50,16 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 
   const setEnabled = useCallback((v: boolean) => {
     setEnabledState(v);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, v ? "on" : "off");
-    } catch {
-      /* fail-silent */
-    }
-    if (v) unmuteAll();
-    else muteAll();
+    applySoundState(v);
   }, []);
 
-  const toggle = useCallback(() => setEnabled(!enabled), [enabled, setEnabled]);
+  const toggle = useCallback(() => {
+    setEnabledState((prev) => {
+      const next = !prev;
+      applySoundState(next);
+      return next;
+    });
+  }, []);
 
   const value = useMemo(() => ({ enabled, toggle, setEnabled }), [enabled, toggle, setEnabled]);
 

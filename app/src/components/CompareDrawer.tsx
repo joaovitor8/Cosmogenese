@@ -6,6 +6,7 @@ import { GitCompare, X } from "lucide-react";
 import { categoryAccent } from "@/src/utils/tableConstants";
 import { usePinned } from "@/src/hooks/usePinned";
 import { useT } from "@/src/lib/i18n";
+import { withAlpha } from "@/src/lib/utils";
 
 interface CompareDrawerProps {
   onOpenCompare: () => void;
@@ -23,7 +24,7 @@ export function CompareDrawer({ onOpenCompare }: CompareDrawerProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 40 }}
           transition={{ type: "spring", stiffness: 320, damping: 32 }}
-          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 px-3 py-2 rounded-full border border-[color:var(--primary)]/30 bg-[color:var(--background)]/92 backdrop-blur-xl shadow-2xl"
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 px-3 py-2 rounded-full border border-(--primary)/30 bg-(--background)/92 backdrop-blur-xl shadow-2xl"
           style={{ boxShadow: "0 0 28px oklch(0.60 0.18 290 / 0.25)" }}
         >
           <span className="hidden sm:inline-block font-mono text-[10px] tracking-[0.25em] uppercase text-white/50 pl-2">
@@ -41,7 +42,7 @@ export function CompareDrawer({ onOpenCompare }: CompareDrawerProps) {
                   className="group relative w-9 h-9 rounded-md border text-sm font-bold font-mono transition-all hover:scale-105"
                   style={{
                     color: accent,
-                    borderColor: accent + "55",
+                    borderColor: withAlpha(accent, 33),
                     background: `color-mix(in oklch, ${accent} 10%, transparent)`,
                   }}
                 >
@@ -56,7 +57,7 @@ export function CompareDrawer({ onOpenCompare }: CompareDrawerProps) {
 
           <button
             onClick={onOpenCompare}
-            className="flex items-center gap-1.5 ml-1 px-3 py-1.5 rounded-full bg-[color:var(--primary)]/20 hover:bg-[color:var(--primary)]/30 border border-[color:var(--primary)]/50 text-[color:var(--primary)] text-[11px] font-mono uppercase tracking-[0.2em] transition-all"
+            className="flex items-center gap-1.5 ml-1 px-3 py-1.5 rounded-full bg-(--primary)/20 hover:bg-(--primary)/30 border border-(--primary)/50 text-primary text-[11px] font-mono uppercase tracking-[0.2em] transition-all"
           >
             <GitCompare className="w-3.5 h-3.5" />
             {t("compare.open")} ({pinned.length})

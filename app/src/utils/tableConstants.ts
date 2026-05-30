@@ -1,4 +1,9 @@
+import type { CSSProperties } from "react";
+
 import type { ElementCategory } from "@/src/data/elementsData";
+
+/** CSSProperties que aceita o CSS var `--cat-accent` sem cast. */
+export type CatAccentStyle = CSSProperties & { "--cat-accent"?: string };
 
 /**
  * Accent color OKLCH por categoria, alinhado com a paleta do Universe.
@@ -34,15 +39,15 @@ export const categoryStyles: Record<ElementCategory, string> = {
   "actinide":              "text-purple-200 hazard-bg hover:shadow-[0_0_24px_rgba(192,132,252,0.45)]",
 };
 
-export const filterCategories: { id: ElementCategory; label: string }[] = [
-  { id: "nonmetal", label: "Não Metais" },
-  { id: "noble-gas", label: "Gases Nobres" },
-  { id: "alkali-metal", label: "Metais Alcalinos" },
-  { id: "alkaline-earth-metal", label: "Alcalino-Terrosos" },
-  { id: "metalloid", label: "Metaloides" },
-  { id: "halogen", label: "Halogênios" },
-  { id: "post-transition-metal", label: "Pós-Transição" },
-  { id: "transition-metal", label: "Metais de Transição" },
-  { id: "lanthanide", label: "Lantanídeos" },
-  { id: "actinide", label: "Actinídeos" },
+export const filterCategories: { id: ElementCategory }[] = [
+  { id: "nonmetal" },
+  { id: "noble-gas" },
+  { id: "alkali-metal" },
+  { id: "alkaline-earth-metal" },
+  { id: "metalloid" },
+  { id: "halogen" },
+  { id: "post-transition-metal" },
+  { id: "transition-metal" },
+  { id: "lanthanide" },
+  { id: "actinide" },
 ];

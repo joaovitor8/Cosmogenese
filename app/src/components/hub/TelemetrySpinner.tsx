@@ -4,23 +4,16 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/src/lib/utils";
 
-const DEFAULT_PHASES = [
-  "Estabelecendo handshake orbital",
-  "Decodificando telemetria",
-  "Sincronizando feixe de dados",
-  "Aguardando confirmação da estação",
-];
-
 interface TelemetrySpinnerProps {
-  phases?: string[];
-  label?: string;
+  phases: string[];
+  label: string;
   className?: string;
   interval?: number;
 }
 
 export function TelemetrySpinner({
-  phases = DEFAULT_PHASES,
-  label = "TRANSMISSÃO EM CURSO",
+  phases,
+  label,
   className,
   interval = 1800,
 }: TelemetrySpinnerProps) {

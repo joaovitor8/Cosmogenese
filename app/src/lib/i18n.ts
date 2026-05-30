@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  createElement,
   useCallback,
   useContext,
   useEffect,
@@ -9,7 +10,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { createElement } from "react";
 
 export type Locale = "pt" | "en";
 
@@ -24,8 +24,8 @@ export const dict = {
   /* Header / Nav */
   "nav.back": { pt: "Voltar ao Universe", en: "Back to Universe" },
   "nav.backShort": { pt: "Universe", en: "Universe" },
-  "nav.brand": { pt: "Forja Estelar", en: "Stellar Forge" },
-  "nav.brandSub": { pt: "STELLAR · FORGE", en: "STELLAR · FORGE" },
+  "nav.brand": { pt: "Cosmogênese", en: "Cosmogenesis" },
+  "nav.brandSub": { pt: "COSMO · GENESIS", en: "COSMO · GENESIS" },
   "nav.menu": { pt: "Alternar menu", en: "Toggle menu" },
 
   /* Códigos HUD (codenames cosméticos, mantidos em inglês nas duas locales) */
@@ -206,7 +206,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const apply = () => {
       try {
-        const stored = window.localStorage.getItem(STORAGE_KEY) as Locale | null;
+        const stored = window.localStorage.getItem(STORAGE_KEY);
         if (stored === "pt" || stored === "en") setLocaleState(stored);
       } catch {
         /* localStorage indisponível — segue com default */
