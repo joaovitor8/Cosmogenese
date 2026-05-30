@@ -2,6 +2,7 @@
 
 import { LOCALES, useLocale } from "@/src/lib/i18n";
 
+/** Toggle PT/EN. Consome o `LocaleProvider`. */
 export function LocaleToggle() {
   const { locale, setLocale } = useLocale();
 

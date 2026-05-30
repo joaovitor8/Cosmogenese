@@ -22,6 +22,17 @@ interface SearchContext {
   t: (key: DictKey) => string;
 }
 
+/**
+ * Busca elementos por símbolo, nome (PT/EN), número atômico, categoria ou origem cósmica.
+ *
+ * Pontuação (heurística, maior = melhor match):
+ *  - 100 símbolo exato · 95 nome local exato · 90 número atômico/nome alt exato
+ *  - 80 símbolo prefixo · 70 nome local prefixo · 60 nome alt prefixo
+ *  - 40 nome local contém · 30 nome alt contém · 20 categoria/origem contém
+ *
+ * Empate de score é desempatado pelo número atômico (mais leve primeiro).
+ * Normaliza acentos e caixa antes de comparar.
+ */
 export function searchElements(
   query: string,
   { locale, t }: SearchContext,

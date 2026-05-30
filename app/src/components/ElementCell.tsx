@@ -9,6 +9,7 @@ import {
 } from "@/src/data/elementsData";
 import { categoryStyles, type CatAccentStyle } from "@/src/utils/tableConstants";
 import { COSMIC_ICON, COSMIC_TINT } from "@/src/utils/cosmicMeta";
+import { ABUNDANCE_ROWS_META } from "@/src/utils/abundance";
 import { useLocale, type DictKey } from "@/src/lib/i18n";
 
 interface ElementCellProps {
@@ -19,27 +20,11 @@ interface ElementCellProps {
   tintOverride?: string;
 }
 
-const RESERVOIR_KEY: Record<keyof AbundanceProfile, DictKey> = {
-  universe: "modal.abundance.universe",
-  earthCrust: "modal.abundance.crust",
-  earthAtmosphere: "modal.abundance.atmosphere",
-  earthOcean: "modal.abundance.ocean",
-  humanBody: "modal.abundance.body",
-};
-
-const RESERVOIR_KEYS = [
-  "universe",
-  "earthCrust",
-  "earthAtmosphere",
-  "earthOcean",
-  "humanBody",
-] as const satisfies readonly (keyof AbundanceProfile)[];
-
 function dominantReservoir(ab?: AbundanceProfile): keyof AbundanceProfile | null {
   if (!ab) return null;
   let best: keyof AbundanceProfile | null = null;
   let bestVal = -1;
-  for (const key of RESERVOIR_KEYS) {
+  for (const { key } of ABUNDANCE_ROWS_META) {
     const v = ab[key];
     if (v != null && v > bestVal) {
       bestVal = v;
@@ -62,6 +47,9 @@ function ElementCellInner({
   const OriginIcon = element.cosmicOrigin ? COSMIC_ICON[element.cosmicOrigin] : null;
   const originTint = element.cosmicOrigin ? COSMIC_TINT[element.cosmicOrigin] : undefined;
   const topReservoir = dominantReservoir(element.abundance);
+  const topReservoirLabel = topReservoir
+    ? ABUNDANCE_ROWS_META.find((r) => r.key === topReservoir)?.labelKey
+    : null;
 
   const overrideStyle: CatAccentStyle = tintOverride
     ? {
@@ -123,9 +111,9 @@ function ElementCellInner({
             {t(`origin.${element.cosmicOrigin}` as DictKey)}
           </span>
         )}
-        {topReservoir && (
+        {topReservoir && topReservoirLabel && (
           <span className="text-[10px] font-mono text-white/55 tracking-wide">
-            {t("modal.abundance")}: {t(RESERVOIR_KEY[topReservoir])}
+            {t("modal.abundance")}: {t(topReservoirLabel)}
           </span>
         )}
       </span>
@@ -133,4 +121,9 @@ function ElementCellInner({
   );
 }
 
+/**
+ * Célula clicável de um elemento na grade. `memo` porque a tabela renderiza
+ * 118 instâncias e a re-render do pai (filtros, EOD) é frequente.
+ * `pulse` ativa o halo do "elemento do dia"; `tintOverride` colore por origem cósmica (stardust mode).
+ */
 export const ElementCell = memo(ElementCellInner);

@@ -53,6 +53,11 @@ const VIS_GRADIENT = (() => {
   return `linear-gradient(to right, ${stops.join(", ")})`;
 })();
 
+/**
+ * Renderiza linhas espectrais (em nm) sobre uma faixa do visível 380–780 nm.
+ * Cada linha vira um stroke colorido na posição correspondente; linhas fora
+ * do visível são contabilizadas em texto separado em vez de descartadas.
+ */
 export function SpectrumBar({ lines, min = 380, max = 780 }: SpectrumBarProps) {
   const visibleLines = lines.filter((wl) => wl >= min && wl <= max);
   const invisibleLines = lines.filter((wl) => wl < min || wl > max);

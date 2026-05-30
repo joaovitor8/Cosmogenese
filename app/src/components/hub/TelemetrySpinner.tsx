@@ -11,6 +11,10 @@ interface TelemetrySpinnerProps {
   interval?: number;
 }
 
+/**
+ * Spinner estilo HUD com texto cíclico ("Recebendo telemetria…", "Decodificando…").
+ * `phases` é a lista de strings que se alternam a cada `interval` ms.
+ */
 export function TelemetrySpinner({
   phases,
   label,

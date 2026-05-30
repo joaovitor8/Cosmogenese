@@ -17,6 +17,12 @@ export interface ElementFilterState {
 
 const EMPTY: ElementFilterState = { category: null, origin: null, biology: null };
 
+/**
+ * Filtro multi-eixo da tabela: categoria, origem cósmica e papel biológico.
+ * Clicar no mesmo valor desativa esse eixo (toggle). `isDimmed(el)` retorna
+ * `true` quando o elemento *não* satisfaz os filtros ativos — usado para
+ * esmaecer células sem removê-las da grade.
+ */
 export function useElementFilter() {
   const [filter, setFilter] = useState<ElementFilterState>(EMPTY);
 

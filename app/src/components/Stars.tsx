@@ -27,6 +27,11 @@ const hexToRgb = (hex: string): string => {
   return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
 };
 
+/**
+ * Background animado de estrelas em canvas 2D. Cada estrela tem cor, tamanho e
+ * fase de cintilação aleatórios. Reseta o canvas no resize da viewport.
+ * `aria-hidden` porque é puramente decorativo.
+ */
 export default function Stars({ className = "", quantity = 30 }: StarsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);

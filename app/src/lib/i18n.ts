@@ -200,6 +200,7 @@ interface LocaleContextValue {
 
 const LocaleContext = createContext<LocaleContextValue | null>(null);
 
+/** Provider de locale. Hidrata do `localStorage` no primeiro frame e persiste mudanças. Envolva a árvore no `RootLayout`. */
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>("pt");
 
@@ -237,15 +238,18 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   return createElement(LocaleContext.Provider, { value }, children);
 }
 
+/** Acesso completo ao locale: `{ locale, setLocale, t }`. Lança erro fora do `LocaleProvider`. */
 export function useLocale() {
   const ctx = useContext(LocaleContext);
   if (!ctx) throw new Error("useLocale deve ser usado dentro de <LocaleProvider>");
   return ctx;
 }
 
+/** Atalho para a função de tradução `t(key)` quando só precisa traduzir, sem mudar locale. */
 export function useT() {
   return useLocale().t;
 }
 
+/** Escolhe entre PT e EN para strings *fora* do dicionário (ex.: campos dos dados). Cai em PT se EN não existir. */
 export const pickLocale = (pt: string, en: string | undefined, locale: Locale) =>
   locale === "en" && en ? en : pt;

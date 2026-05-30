@@ -32,6 +32,14 @@ function writeUrl(el: ChemicalElement | null): void {
   window.history.replaceState(null, "", url.toString());
 }
 
+/**
+ * Sincroniza o elemento selecionado com a URL (`?el=H`), nas duas direções:
+ *  - Lê `?el=` no mount e dispara `setSelected`.
+ *  - Espelha mudanças de `selected` no querystring via `history.replaceState` (sem entrar no histórico).
+ *  - Escuta `popstate` pra suportar voltar/avançar no navegador.
+ *
+ * Aceita símbolo (`H`), nome PT (`Hidrogenio`), nome EN (`Hydrogen`) ou número atômico (`1`).
+ */
 export function useSelectedSync(
   selected: ChemicalElement | null,
   setSelected: (el: ChemicalElement | null) => void,

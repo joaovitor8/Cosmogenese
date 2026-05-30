@@ -14,6 +14,11 @@ interface ElementSoundButtonProps {
   accent: string;
 }
 
+/**
+ * Botão "Ouvir" no modal do elemento. Toca o espectro (se houver linhas) ou
+ * um z-tone fallback. No primeiro clique também *liga* o som global — o gesto
+ * do usuário é o que destrava o AudioContext em Chrome/Safari.
+ */
 export function ElementSoundButton({ element, accent }: ElementSoundButtonProps) {
   const t = useT();
   const { enabled, setEnabled } = useSoundEnabled();

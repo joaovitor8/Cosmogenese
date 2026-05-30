@@ -49,6 +49,11 @@ function writeStorage(zs: number[]): void {
   }
 }
 
+/**
+ * Provider dos elementos "fixados" pelo usuário (modo comparar).
+ * Persiste em `localStorage`, limita a `PINNED_MAX` (4) e ignora o write
+ * inicial pra não sobrescrever o storage com `[]` antes de hidratar.
+ */
 export function PinnedProvider({ children }: { children: ReactNode }) {
   const [pinnedZ, setPinnedZ] = useState<number[]>([]);
   const hasHydratedRef = useRef(false);
@@ -100,6 +105,7 @@ export function PinnedProvider({ children }: { children: ReactNode }) {
   return <PinnedContext.Provider value={value}>{children}</PinnedContext.Provider>;
 }
 
+/** API dos pinned. Lança fora do `PinnedProvider`. Veja {@link PinnedProvider} para semântica. */
 export function usePinned() {
   const ctx = useContext(PinnedContext);
   if (!ctx) throw new Error("usePinned deve ser usado dentro de <PinnedProvider>");

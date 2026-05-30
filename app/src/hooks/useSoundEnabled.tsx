@@ -32,6 +32,10 @@ function applySoundState(v: boolean) {
   else muteAll();
 }
 
+/**
+ * Provider do som global. Default **OFF** — nada toca antes do usuário ativar.
+ * Persiste a escolha em `localStorage` e chama `muteAll`/`unmuteAll` no AudioContext.
+ */
 export function SoundProvider({ children }: { children: ReactNode }) {
   // Default OFF — autoplay nunca, usuário escolhe.
   const [enabled, setEnabledState] = useState(false);
@@ -66,6 +70,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
   return <SoundContext.Provider value={value}>{children}</SoundContext.Provider>;
 }
 
+/** Acesso ao estado do som global. Lança fora do `SoundProvider`. */
 export function useSoundEnabled() {
   const ctx = useContext(SoundContext);
   if (!ctx) throw new Error("useSoundEnabled deve ser usado dentro de <SoundProvider>");

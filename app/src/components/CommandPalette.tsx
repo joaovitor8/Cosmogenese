@@ -15,6 +15,11 @@ interface CommandPaletteProps {
   onSelect: (el: ChemicalElement) => void;
 }
 
+/**
+ * Paleta de comandos (Cmd/Ctrl+K) para busca rápida de elementos.
+ * Navegação por teclado: ↑↓ move, Enter seleciona, Esc fecha. Hover do mouse
+ * também move o índice ativo — assim teclado e mouse coexistem sem disputa.
+ */
 export function CommandPalette({ open, onClose, onSelect }: CommandPaletteProps) {
   const { t, locale } = useLocale();
   const [query, setQueryRaw] = useState("");
@@ -80,10 +85,10 @@ export function CommandPalette({ open, onClose, onSelect }: CommandPaletteProps)
             className="relative w-full max-w-xl rounded-2xl border border-(--primary)/25 bg-(--background)/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <span className="absolute top-2 left-2 w-3 h-3 border-t border-l order-(--primary)/60" />
-            <span className="absolute top-2 right-2 w-3 h-3 border-t border-r order-(--primary)/60" />
-            <span className="absolute bottom-2 left-2 w-3 h-3 border-b border-l order-(--primary)/60" />
-            <span className="absolute bottom-2 right-2 w-3 h-3 border-b border-r order-(--primary)/60" />
+            <span className="absolute top-2 left-2 w-3 h-3 border-t border-l border-(--primary)/60" />
+            <span className="absolute top-2 right-2 w-3 h-3 border-t border-r border-(--primary)/60" />
+            <span className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-(--primary)/60" />
+            <span className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-(--primary)/60" />
 
             <div className="flex items-center gap-3 px-4 py-3 border-b border-white/10">
               <Search className="w-4 h-4 text-primary shrink-0" />

@@ -12,6 +12,11 @@ interface CompareDrawerProps {
   onOpenCompare: () => void;
 }
 
+/**
+ * Dock flutuante na base da tela com os elementos fixados.
+ * Só aparece quando há ≥1 elemento pinned. Clique numa pílula desfixa o item;
+ * o botão grande abre o `CompareModal` para visualização lado a lado.
+ */
 export function CompareDrawer({ onOpenCompare }: CompareDrawerProps) {
   const t = useT();
   const { pinned, unpin, clear } = usePinned();

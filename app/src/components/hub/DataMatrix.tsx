@@ -21,6 +21,10 @@ const COL_CLASS: Record<1 | 2 | 3 | 4, string> = {
   4: "grid-cols-2 md:grid-cols-4",
 };
 
+/**
+ * Grid de pontos de telemetria (label + valor + unidade opcional).
+ * `alert: true` pinta o ponto em vermelho; senão herda `--cat-accent`.
+ */
 export function DataMatrix({ data, className, columns = 2 }: DataMatrixProps) {
   return (
     <div

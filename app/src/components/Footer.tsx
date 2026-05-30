@@ -7,6 +7,10 @@ import { useT } from "@/src/lib/i18n";
 import { useSoundEnabled } from "@/src/hooks/useSoundEnabled";
 import { LocaleToggle } from "./LocaleToggle";
 
+/**
+ * Rodapé global: tagline, fontes de dados, atalhos, controle de som/locale e
+ * easter egg do tema toxic (3 cliques rápidos no glyph "◆" alternam `.theme-toxic`).
+ */
 export function Footer() {
   const t = useT();
   const universeUrl = process.env.NEXT_PUBLIC_UNIVERSE_URL ?? "/";

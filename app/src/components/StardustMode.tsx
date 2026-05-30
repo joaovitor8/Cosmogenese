@@ -11,6 +11,7 @@ interface StardustIntroProps {
   onClose: () => void;
 }
 
+/** Modal de boas-vindas do modo Stardust ("você é poeira de estrelas"). */
 export function StardustIntro({ open, onEnter, onClose }: StardustIntroProps) {
   const t = useT();
 
@@ -81,6 +82,7 @@ interface StardustChipProps {
   onExit: () => void;
 }
 
+/** Chip persistente que indica que o modo Stardust está ativo; clicar sai do modo. */
 export function StardustChip({ onExit }: StardustChipProps) {
   const t = useT();
   return (

@@ -16,6 +16,11 @@ function localYmd(date: Date): string {
   return `${y}-${m}-${d}`;
 }
 
+/**
+ * Elemento do dia, determinístico por data local (fuso do usuário).
+ * Mesma data → mesmo elemento em qualquer reload; muda à meia-noite local.
+ * Usa hash FNV-1a sobre "YYYY-MM-DD" para distribuir os 118 elementos de forma estável.
+ */
 export function elementOfDay(date: Date = new Date()): ChemicalElement {
   const idx = hashYmd(localYmd(date)) % elements.length;
   return elements[idx];

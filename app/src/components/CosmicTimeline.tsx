@@ -26,6 +26,11 @@ interface CosmicTimelineProps {
 
 const STEP_MS = 1600;
 
+/**
+ * Modal da linha do tempo cósmica — revela elementos por origem, em ordem
+ * cronológica, com play/pause/reset. Quando o som está ligado, toca um pad
+ * ambiente diferente por origem, fazendo cross-fade na transição.
+ */
 export function CosmicTimeline({ open, onClose, onSelect }: CosmicTimelineProps) {
   const { t, locale } = useLocale();
   const { enabled: soundEnabled } = useSoundEnabled();

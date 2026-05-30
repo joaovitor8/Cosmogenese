@@ -9,6 +9,11 @@ import { SoundProvider } from "@/src/hooks/useSoundEnabled";
 
 const ONE_MINUTE = 60_000;
 
+/**
+ * Empilha todos os providers globais: React Query → Locale → Sound → Pinned.
+ * O `QueryClient` é instanciado dentro do componente pra que cada SSR-render do
+ * Next tenha seu próprio client (evita vazar cache entre requests).
+ */
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
     () =>

@@ -11,6 +11,11 @@ interface HudPanelProps {
   variant?: "glass" | "solid";
 }
 
+/**
+ * Painel HUD com cantos angulares e label/badge opcionais — wrapper visual
+ * usado nas seções do modal de elemento e do dossiê. Os cantos usam
+ * `var(--cat-accent)` para herdar a cor da categoria do elemento.
+ */
 export function HudPanel({
   label,
   badge,

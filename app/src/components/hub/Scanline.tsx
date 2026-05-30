@@ -11,6 +11,7 @@ const INTENSITY: Record<NonNullable<ScanlineProps["intensity"]>, string> = {
   strong: "opacity-100",
 };
 
+/** Overlay decorativo de scanline (efeito CRT). `pointer-events-none`, decorativo. */
 export function Scanline({ className, intensity = "default" }: ScanlineProps) {
   return (
     <div

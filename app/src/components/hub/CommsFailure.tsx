@@ -12,6 +12,10 @@ interface CommsFailureProps {
   className?: string;
 }
 
+/**
+ * Estado de erro estilizado como "falha de comunicação" do HUD.
+ * Use quando uma chamada externa (Wikipédia, API) falha; `onRetry` exibe botão de retry.
+ */
 export function CommsFailure({
   message,
   code,

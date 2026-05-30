@@ -44,6 +44,11 @@ function Pill({ label, accent, active, onClick }: PillProps) {
   );
 }
 
+/**
+ * Painel flutuante de filtros (3 eixos: categoria, origem cósmica, biologia).
+ * As pílulas são toggles independentes; `filter.clear` zera tudo de uma vez.
+ * Renderiza só origens com pelo menos 1 elemento na base.
+ */
 export function ScannerPanel({ showFilters, filter, onClose }: ScannerPanelProps) {
   const t = useT();
   const origins = COSMIC_ORIGIN_ORDER.filter((o) => (elementsByOrigin[o]?.length ?? 0) > 0);

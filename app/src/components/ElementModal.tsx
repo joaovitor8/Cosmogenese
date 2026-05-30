@@ -35,6 +35,11 @@ interface ElementModalProps {
   onNavigate?: (delta: number) => void;
 }
 
+/**
+ * Modal completo do elemento: átomo 3D, origem cósmica, abundância (5 reservatórios),
+ * espectro/chama, biologia, telemetria e dossiê expandido (Wikipédia lazy via React Query).
+ * `onNavigate(delta)` habilita as setas ←/→ e os chevrons laterais para próximo/anterior.
+ */
 export function ElementModal({ selected, onClose, onNavigate }: ElementModalProps) {
   const { t, locale } = useLocale();
   const { isPinned, isFull, toggle } = usePinned();

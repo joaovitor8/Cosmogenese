@@ -17,6 +17,11 @@ interface CompareModalProps {
   onClose: () => void;
 }
 
+/**
+ * Modal de comparação lado a lado dos elementos fixados (até `PINNED_MAX`).
+ * Cada coluna mostra dados resumidos: identidade, origem, abundância e biologia,
+ * todos compartilhando a mesma escala visual para facilitar leitura horizontal.
+ */
 export function CompareModal({ open, onClose }: CompareModalProps) {
   const { t, locale } = useLocale();
   const { pinned, unpin } = usePinned();

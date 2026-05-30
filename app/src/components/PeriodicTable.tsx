@@ -23,6 +23,11 @@ import { CompareDrawer } from "./CompareDrawer";
 import { CompareModal } from "./CompareModal";
 import { StardustIntro, StardustChip } from "./StardustMode";
 
+/**
+ * Tela principal: grid 18×10 da tabela periódica, header com EOD/scanner/timeline
+ * e todos os modais (palette, modal de elemento, timeline, compare, stardust).
+ * Concentra o estado de UI cross-cutting — filhos comunicam via props/callbacks.
+ */
 export default function PeriodicTable() {
   const t = useT();
   const { locale } = useLocale();

@@ -5,6 +5,11 @@ interface FlamePreviewProps {
   size?: number;
 }
 
+/**
+ * Animação CSS de chama colorida (3 camadas com `mix-blend-mode: screen`),
+ * usada no painel "Assinatura Espectral" para visualizar a cor de chama do elemento.
+ * Animação vive nos keyframes `flame-core`/`flame-tongue` em globals.css.
+ */
 export function FlamePreview({ color, size = 96 }: FlamePreviewProps) {
   return (
     <div
