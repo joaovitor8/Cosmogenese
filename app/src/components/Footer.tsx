@@ -73,7 +73,7 @@ export function Footer() {
               <ExternalLink className="w-3.5 h-3.5" /> {t("footer.shortcuts")}
             </div>
             <a
-              href={universeUrl}
+              href="https://universo-astros.vercel.app/"
               className="text-sm text-muted-foreground hover:text-primary transition-colors w-fit"
             >
               ← {t("nav.back")}
