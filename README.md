@@ -56,31 +56,6 @@ src/
 
 Os dados de elementos vivem em `src/data/elements/*.ts` (períodos 1–7 + lantanídeos + actinídeos) e são unidos e indexados em `src/data/elementsData.ts`.
 
-## Como rodar
-
-Pré-requisitos: Node.js 20+ e npm.
-
-```bash
-npm install
-npm run dev       # http://localhost:3000
-```
-
-Outros scripts:
-
-```bash
-npm run build     # build de produção
-npm run start     # serve o build
-npm run lint      # eslint
-```
-
-## Variáveis de ambiente
-
-| Variável | Padrão | Descrição |
-|---|---|---|
-| `NEXT_PUBLIC_UNIVERSE_URL` | `/` | URL do projeto Universe usado no link "Voltar" do rodapé. |
-
-Crie um `.env.local` na raiz de `app/` para sobrescrever.
-
 ## Atalhos
 
 | Atalho | Ação |
